@@ -37,8 +37,6 @@ public class StudentServlet extends HttpServlet {
         this.service = new StudentServiceImpl(repository);
     }
 
-
-    // по имени студента получить все оценки по предмету
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String surname = req.getParameter("surname");
@@ -55,7 +53,7 @@ public class StudentServlet extends HttpServlet {
                 List<MarkDTO> markDTOList = studentDtoIncoming.getMarkDtoList();
                 resp.setContentType("text/html;charset=UTF-8");
                 PrintWriter out = resp.getWriter();
-                out.println("Оценки по предмету "+subject);
+                out.println("Оценки "+surname+ " по предмету "+subject);
                 for (MarkDTO mark : markDTOList) {
                     out.println(mark.getValue());
                 }
@@ -70,7 +68,6 @@ public class StudentServlet extends HttpServlet {
         }
     }
 
-    //добавить нового студента
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String surname = req.getParameter("surname");
@@ -96,12 +93,10 @@ public class StudentServlet extends HttpServlet {
 
     }
 
-    //!РЕАЛИЗОВАТЬ
-    // поменять имя студента
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String oldSurname = req.getParameter("old_surname");
-        String newSurname = req.getParameter("new_surname");
+        String oldSurname = req.getParameter("old-surname");
+        String newSurname = req.getParameter("new-surname");
         if (StringUtils.isAnyBlank(oldSurname, newSurname)) {
             resp.sendError(400, "Проверьте корректность введенных данных");
         } else {
@@ -109,7 +104,7 @@ public class StudentServlet extends HttpServlet {
                 StudentDTO oldStudentDTO = new StudentDTO();
                 oldStudentDTO.setSurname(oldSurname);
                 StudentDTO newStudentDTO = new StudentDTO();
-                oldStudentDTO.setSurname(newSurname);
+                newStudentDTO.setSurname(newSurname);
                 boolean added = service.changeStudent(oldStudentDTO, newStudentDTO);
                 if (added) {
                     resp.setStatus(200);

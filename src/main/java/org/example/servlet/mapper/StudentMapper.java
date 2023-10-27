@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = {MarkMapper.class, SubjectMapper.class})
+@Mapper(uses = {MarkToStudentMapper.class, SubjectMapper.class})
 public interface StudentMapper {
     StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
 

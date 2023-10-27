@@ -1,8 +1,5 @@
 package org.example.servlet.dto;
 
-import org.example.model.entity.MarkEntity;
-import org.example.model.entity.StudentEntity;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;

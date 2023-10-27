@@ -19,6 +19,8 @@ public class SubjectRepositoryImpl implements SubjectRepository<SubjectEntity, U
     private static final String subjectIdCheck = "SELECT * FROM subject WHERE name = ?;";
     private static final String GET_SUBJECT_BY_NAME = "SELECT id FROM subject WHERE name = ?;";
 
+    private static final String DELETE_SUBJECT_BY_NAME = "DELETE FROM subject WHERE name = ?;";
+
     public SubjectRepositoryImpl(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
@@ -33,6 +35,16 @@ public class SubjectRepositoryImpl implements SubjectRepository<SubjectEntity, U
             return true;
         }
 
+    }
+
+    @Override
+    public boolean deleteSubject(SubjectEntity subjectEntity) throws SQLException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SUBJECT_BY_NAME)) {
+            preparedStatement.setString(1, subjectEntity.getName());
+            preparedStatement.executeUpdate();
+            return true;
+        }
     }
 
     @Override

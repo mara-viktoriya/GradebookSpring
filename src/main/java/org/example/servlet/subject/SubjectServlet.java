@@ -36,8 +36,6 @@ public class SubjectServlet extends HttpServlet {
         this.service = new SubjectServiceImpl(repository);
     }
 
-
-    //добавить новый предмет
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
@@ -65,13 +63,26 @@ public class SubjectServlet extends HttpServlet {
 
     }
 
-    // удалить предмет
-
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         if (StringUtils.isBlank(name)){
             resp.sendError(400, "Проверьте корректность введенных данных");
+        } else {
+            try {
+                SubjectDTO subjectDTO = new SubjectDTO();
+                subjectDTO.setName(name);
+                boolean deleted = service.deleteSubject(subjectDTO);
+                if (deleted) {
+                    resp.setStatus(200);
+                } else {
+                    resp.sendError(400, "Проверьте корректность введенных данных");
+                }
+            } catch (SQLException e) {
+                resp.sendError(400, "Ошибка работы базы данных");
+            } catch (RuntimeException e) {
+                resp.sendError(400, e.getMessage());
+            }
         }
 
     }

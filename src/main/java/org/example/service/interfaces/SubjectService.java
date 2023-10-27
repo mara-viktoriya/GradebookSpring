@@ -11,6 +11,8 @@ public interface SubjectService<T, K> {
 
     boolean saveNewSubject (SubjectDTO subjectDTO) throws SQLException;
 
+    boolean deleteSubject(SubjectDTO subjectDTO) throws SQLException;
+
 
 
 }

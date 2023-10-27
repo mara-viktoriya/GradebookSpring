@@ -8,11 +8,15 @@ import java.util.UUID;
 
 public interface SubjectRepository<T, K> extends Repository <SubjectEntity, UUID>  {
 
-    boolean addNewSubject (SubjectEntity subjectEntity) throws SQLException;
+
 
     String getSubjectIdByName(T t) throws SQLException;
 
     boolean isSubjectExists (T t) throws SQLException;
+
+    boolean addNewSubject (SubjectEntity subjectEntity) throws SQLException;
+
+    boolean deleteSubject(SubjectEntity subjectEntity) throws SQLException;
 
 
 

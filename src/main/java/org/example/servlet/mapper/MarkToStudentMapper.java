@@ -7,9 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {StudentMapper.class, SubjectMapper.class})
-public interface MarkMapper {
-    MarkMapper INSTANCE = Mappers.getMapper(MarkMapper.class);
+@Mapper
+public interface MarkToStudentMapper {
+
+    MarkToStudentMapper INSTANCE = Mappers.getMapper(MarkToStudentMapper.class);
 
     @Mapping(source = "subjectEntity", target = "subjectDto")
     @Mapping(source = "studentEntity", target = "studentDTO")
@@ -17,7 +18,4 @@ public interface MarkMapper {
 
     @InheritInverseConfiguration
     MarkEntity toMarkEntity(MarkDTO markDTO);
-//    List<MarkEntity> toMarkEntityList (List<MarkDTO> list);
-//    List<MarkDTO> toMarkDtoList (List<MarkEntity> list);
-
 }

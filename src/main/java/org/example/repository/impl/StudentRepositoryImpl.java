@@ -94,8 +94,8 @@ public class StudentRepositoryImpl implements StudentRepository<StudentEntity, U
     public boolean changeStudent(StudentEntity oldStudentEntity, StudentEntity newStudentEntity) throws SQLException {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_STUDENT_BY_SURNAME)) {
-            preparedStatement.setString(1, oldStudentEntity.getSurname());
-            preparedStatement.setString(2, newStudentEntity.getSurname());
+            preparedStatement.setString(2, oldStudentEntity.getSurname());
+            preparedStatement.setString(1, newStudentEntity.getSurname());
             preparedStatement.executeUpdate();
             return true;
         }
