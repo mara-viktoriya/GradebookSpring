@@ -13,11 +13,10 @@ public interface MarkMapper {
 
     @Mapping(source = "subjectEntity", target = "subjectDto")
     @Mapping(source = "studentEntity", target = "studentDTO")
+
     MarkDTO toMarkDTO(MarkEntity markEntity);
 
     @InheritInverseConfiguration
     MarkEntity toMarkEntity(MarkDTO markDTO);
-//    List<MarkEntity> toMarkEntityList (List<MarkDTO> list);
-//    List<MarkDTO> toMarkDtoList (List<MarkEntity> list);
 
 }

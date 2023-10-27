@@ -7,14 +7,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.example.db.ConnectionManager;
-import org.example.db.DataBaseConnect;
 import org.example.db.HikariCPDataSource;
 import org.example.model.entity.SubjectEntity;
 import org.example.repository.impl.SubjectRepositoryImpl;
 import org.example.repository.interfaces.SubjectRepository;
 import org.example.service.impl.SubjectServiceImpl;
 import org.example.service.interfaces.SubjectService;
-import org.example.servlet.dto.StudentDTO;
 import org.example.servlet.dto.SubjectDTO;
 
 import java.io.IOException;
@@ -31,7 +29,6 @@ public class SubjectServlet extends HttpServlet {
 
     public SubjectServlet() {
         this.connectionManager = new HikariCPDataSource();
-        //this.connectionManager = new DataBaseConnect();
         this.repository = new SubjectRepositoryImpl(this.connectionManager);
         this.service = new SubjectServiceImpl(repository);
     }

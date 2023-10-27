@@ -1,13 +1,11 @@
 package org.example.servlet.mark;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.example.db.ConnectionManager;
-import org.example.db.DataBaseConnect;
 import org.example.db.HikariCPDataSource;
 import org.example.model.entity.MarkEntity;
 import org.example.repository.impl.MarkRepositoryImpl;
@@ -17,7 +15,6 @@ import org.example.service.interfaces.MarkService;
 import org.example.servlet.dto.AddMarkDTO;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.UUID;
 
@@ -40,33 +37,25 @@ public class MarkServlet extends HttpServlet {
         String mark = req.getParameter("mark");
         String surname = req.getParameter("surname");
         String subject = req.getParameter("subject");
-        if (StringUtils.isAnyBlank(mark,surname,subject)){
+        if (StringUtils.isAnyBlank(mark, surname, subject)) {
             resp.sendError(400, "Проверьте корректность введенных данных");
-        }
-        else {
+        } else {
             try {
                 AddMarkDTO addMarkDTO = new AddMarkDTO(Integer.parseInt(mark), surname, subject);
                 boolean added = service.addMark(addMarkDTO);
-                if (added){
+                if (added) {
                     resp.setStatus(200);
-                }
-                else {
+                } else {
                     resp.sendError(400, "Проверьте корректность введенных данных");
                 }
-            }
-
-            catch (SQLException e){
+            } catch (SQLException e) {
                 resp.sendError(400, "Ошибка работы базы данных");
             }
-
         }
-
-
-
-//        Optional.ofNullable(req.getParameter("mark"))
-//                .ifPresentOrElse(MarkServlet::doSmth, () -> sendError(resp));\
     }
 
+    //        Optional.ofNullable(req.getParameter("mark"))
+//                .ifPresentOrElse(MarkServlet::doSmth, () -> sendError(resp));\
 //    private static void doSmth(String it) {
 //        System.out.println(it);
 //            }

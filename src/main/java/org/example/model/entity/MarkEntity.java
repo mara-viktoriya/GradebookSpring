@@ -33,8 +33,8 @@ public class MarkEntity {
         return "MarkEntity{" +
                 "id=" + id +
                 ", value=" + value +
-
                 ", subjectEntity=" + subjectEntity +
+                ", studentEntity=" + studentEntity +
                 '}';
     }
 

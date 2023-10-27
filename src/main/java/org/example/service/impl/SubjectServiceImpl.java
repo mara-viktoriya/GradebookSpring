@@ -1,11 +1,9 @@
 package org.example.service.impl;
 
-import org.example.model.entity.StudentEntity;
 import org.example.model.entity.SubjectEntity;
 import org.example.repository.interfaces.SubjectRepository;
 import org.example.service.interfaces.SubjectService;
 import org.example.servlet.dto.SubjectDTO;
-import org.example.servlet.mapper.StudentMapper;
 import org.example.servlet.mapper.SubjectMapper;
 
 import java.sql.SQLException;

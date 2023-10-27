@@ -18,6 +18,4 @@ public interface SubjectMapper {
     @InheritInverseConfiguration
     SubjectEntity toSubjectEntity(SubjectDTO subjectDTO);
 
-//    List<SubjectEntity> toSubjectEntityList(List<SubjectDTO> list);
-//    List<SubjectDTO> toSubjectDTOList(List<SubjectEntity> list);
 }
