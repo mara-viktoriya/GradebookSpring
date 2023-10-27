@@ -1,17 +1,20 @@
 package org.example.service.interfaces;
 
 import org.example.model.entity.StudentEntity;
+import org.example.servlet.dto.StudentDTO;
+import org.example.servlet.dto.SubjectDTO;
 
-import java.util.List;
+import java.sql.SQLException;
+import java.util.UUID;
 
-public interface StudentService {
-    StudentEntity findById(Long id);
+public interface StudentService<T, K>{
 
-    StudentEntity findBySurname(String surname);
+    boolean saveNewStudent (StudentDTO studentDTO) throws SQLException, RuntimeException;
 
-    List<StudentEntity> findAll();
+    boolean deleteStudent (StudentDTO studentDTO) throws SQLException, RuntimeException;
 
-    StudentEntity save(StudentEntity student);
+    StudentDTO getMarksBySubject (StudentDTO studentDTO, SubjectDTO subjectDTO) throws SQLException, RuntimeException;
 
-    void delete(Long id);
+    boolean changeStudent (StudentDTO oldStudentDTO, StudentDTO newStudentDTO) throws SQLException, RuntimeException;
+
 }

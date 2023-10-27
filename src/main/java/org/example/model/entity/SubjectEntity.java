@@ -1,75 +1,39 @@
 package org.example.model.entity;
 
 
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-@Entity
-@Table(name = "subject")
 public class SubjectEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
 
-    @Pattern(regexp = "[a-zA-Z]+")
-    @Column(name = "name")
+    private UUID id;
+
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(
-            name = "student_subject",
-            joinColumns = @JoinColumn(name = "subject_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
-    private List<StudentEntity> studentEntities;
 
-    @OneToMany(mappedBy = "subject")
-    private List<MarkEntity> markEntities;
+    private List<StudentEntity> studentEntitiesList;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SubjectEntity subjectEntity = (SubjectEntity) o;
-        return Objects.equals(id, subjectEntity.id) && Objects.equals(name, subjectEntity.name);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "SubjectEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", studentEntities=" + studentEntities +
-                ", markEntities=" + markEntities +
-                '}';
-    }
+    private List<MarkEntity> markEntitiesList;
 
     public SubjectEntity() {
+        this.id = UUID.randomUUID();
     }
 
-    public SubjectEntity(Long id, String name, List<StudentEntity> studentEntities, List<MarkEntity> markEntities) {
+    public SubjectEntity(UUID id, String name, List<StudentEntity> studentEntitiesList, List<MarkEntity> markEntitiesList) {
         this.id = id;
         this.name = name;
-        this.studentEntities = studentEntities;
-        this.markEntities = markEntities;
+        this.studentEntitiesList = studentEntitiesList;
+        this.markEntitiesList = markEntitiesList;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -81,19 +45,41 @@ public class SubjectEntity {
         this.name = name;
     }
 
-    public List<StudentEntity> getStudents() {
-        return studentEntities;
+    public List<StudentEntity> getStudentEntitiesList() {
+        return studentEntitiesList;
     }
 
-    public void setStudents(List<StudentEntity> studentEntities) {
-        this.studentEntities = studentEntities;
+    public void setStudentEntitiesList(List<StudentEntity> studentEntities) {
+        this.studentEntitiesList = studentEntities;
     }
 
-    public List<MarkEntity> getMarks() {
-        return markEntities;
+    public List<MarkEntity> getMarkEntitiesList() {
+        return markEntitiesList;
     }
 
-    public void setMarks(List<MarkEntity> markEntities) {
-        this.markEntities = markEntities;
+    public void setMarkEntitiesList(List<MarkEntity> markEntities) {
+        this.markEntitiesList = markEntities;
+    }
+
+    @Override
+    public String toString() {
+        return "SubjectEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", studentEntitiesList=" + studentEntitiesList +
+                ", markEntitiesList=" + markEntitiesList +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SubjectEntity that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(studentEntitiesList, that.studentEntitiesList) && Objects.equals(markEntitiesList, that.markEntitiesList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), studentEntitiesList, markEntitiesList);
     }
 }

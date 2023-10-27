@@ -1,24 +1,48 @@
 package org.example.servlet.dto;
 
 
-import org.example.model.entity.StudentEntity;
 import org.example.model.entity.SubjectEntity;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class MarkDTO {
-    private Long id;
+    private UUID id;
     private int value;
+    private SubjectDTO subjectDto;
 
-    private StudentEntity studentEntity;
+    private StudentDTO studentDTO;
+    public MarkDTO() {
+        this.id = UUID.randomUUID();
+    }
 
-    private SubjectEntity subjectEntity;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MarkDTO markDTO)) return false;
+        return getValue() == markDTO.getValue() && Objects.equals(getId(), markDTO.getId()) && Objects.equals(getSubjectDto(), markDTO.getSubjectDto()) && Objects.equals(getStudentDTO(), markDTO.getStudentDTO());
+    }
 
-    public Long getId() {
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getValue(), getSubjectDto(), getStudentDTO());
+    }
+
+    @Override
+    public String toString() {
+        return "MarkDTO{" +
+                "id=" + id +
+                ", value=" + value +
+                ", subjectDto=" + subjectDto +
+                ", studentDTO=" + studentDTO +
+                '}';
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -30,52 +54,26 @@ public class MarkDTO {
         this.value = value;
     }
 
-    public StudentEntity getStudent() {
-        return studentEntity;
+    public SubjectDTO getSubjectDto() {
+        return subjectDto;
     }
 
-    public void setStudent(StudentEntity studentEntity) {
-        this.studentEntity = studentEntity;
+    public void setSubjectDto(SubjectDTO subjectDto) {
+        this.subjectDto = subjectDto;
     }
 
-    public SubjectEntity getSubject() {
-        return subjectEntity;
+    public StudentDTO getStudentDTO() {
+        return studentDTO;
     }
 
-    public void setSubject(SubjectEntity subjectEntity) {
-        this.subjectEntity = subjectEntity;
+    public void setStudentDTO(StudentDTO studentDTO) {
+        this.studentDTO = studentDTO;
     }
 
-    public MarkDTO(Long id, int value, StudentEntity studentEntity, SubjectEntity subjectEntity) {
+    public MarkDTO(UUID id, int value, SubjectDTO subjectDto, StudentDTO studentDTO) {
         this.id = id;
         this.value = value;
-        this.studentEntity = studentEntity;
-        this.subjectEntity = subjectEntity;
-    }
-
-    public MarkDTO() {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MarkDTO)) return false;
-        MarkDTO markDTO = (MarkDTO) o;
-        return getValue() == markDTO.getValue() && Objects.equals(getId(), markDTO.getId()) && Objects.equals(getStudent(), markDTO.getStudent()) && Objects.equals(getSubject(), markDTO.getSubject());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getValue(), getStudent(), getSubject());
-    }
-
-    @Override
-    public String toString() {
-        return "MarkDTO{" +
-                "id=" + id +
-                ", value=" + value +
-                ", studentEntity=" + studentEntity +
-                ", subjectEntity=" + subjectEntity +
-                '}';
+        this.subjectDto = subjectDto;
+        this.studentDTO = studentDTO;
     }
 }

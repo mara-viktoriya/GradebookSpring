@@ -1,15 +1,16 @@
 package org.example.service.interfaces;
 
 import org.example.model.entity.SubjectEntity;
+import org.example.servlet.dto.StudentDTO;
+import org.example.servlet.dto.SubjectDTO;
 
-import java.util.List;
+import java.sql.SQLException;
+import java.util.UUID;
 
-public interface SubjectService {
-    SubjectEntity findById(Long id);
+public interface SubjectService<T, K> {
 
-    List<SubjectEntity> findAll();
+    boolean saveNewSubject (SubjectDTO subjectDTO) throws SQLException;
 
-    SubjectEntity save(SubjectEntity subject);
 
-    void delete(Long id);
+
 }

@@ -8,11 +8,11 @@ public class DataBaseConnect implements ConnectionManager{
     private String url;
     private String user;
     private String password;
-    public DataBaseConnect(String className, String url, String user, String password) {
-        this.className = className;
-        this.url = url;
-        this.user = user;
-        this.password = password;
+    public DataBaseConnect() {
+        this.className = "org.postgresql.ds.PGSimpleDataSource";
+        this.url = "jdbc:postgresql://localhost:5432/mydb";
+        this.user = "user";
+        this.password = "password";
         try {
             Class.forName(className);
         } catch (ClassNotFoundException e) {

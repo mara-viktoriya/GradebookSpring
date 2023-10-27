@@ -1,21 +1,38 @@
 CREATE TABLE IF NOT EXISTS mark
 (
-    id         INT PRIMARY KEY,
+    id         VARCHAR PRIMARY KEY,
     value      INT,
-    student_id INT REFERENCES student (id) ON DELETE CASCADE,
-    subject_id INT REFERENCES subject (id) ON DELETE CASCADE
+    student_id VARCHAR,
+    subject_id VARCHAR
+    -- FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE,
+    --FOREIGN KEY (subject_id) REFERENCES subject (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS student
 (
-    id         INT PRIMARY KEY,
-    surname    VARCHAR(30),
-    subject_id INT REFERENCES subject (id) ON DELETE CASCADE
+    id         VARCHAR PRIMARY KEY,
+    surname    VARCHAR
+    --subject_id VARCHAR
+    --FOREIGN KEY (subject_id) REFERENCES subject (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS subject
 (
-    id         INT PRIMARY KEY,
-    name       VARCHAR,
-    student_id INT REFERENCES student (id) ON DELETE CASCADE
+    id         VARCHAR PRIMARY KEY,
+    name       VARCHAR
+    --student_id VARCHAR,
+    --mark_id    VARCHAR
+    --FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE
 );
+
+ALTER TABLE mark
+    ADD FOREIGN KEY (student_id) REFERENCES student (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    ADD FOREIGN KEY (subject_id) REFERENCES subject (id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+--ALTER TABLE student
+--ADD FOREIGN KEY (subject_id) REFERENCES subject (id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+--ALTER TABLE subject
+--ADD FOREIGN KEY (student_id) REFERENCES student (id) ON UPDATE CASCADE ON DELETE CASCADE,
+--ADD FOREIGN KEY (mark_id) REFERENCES mark (id) ON UPDATE CASCADE ON DELETE CASCADE;
+

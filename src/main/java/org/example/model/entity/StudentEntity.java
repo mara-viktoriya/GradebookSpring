@@ -1,74 +1,37 @@
 package org.example.model.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
+
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-@Entity
-
-@Table(name = "student")
 public class StudentEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
 
-    @Pattern(regexp = "[a-zA-Z]+")
-    @Column(name = "surname")
+    private UUID id;
+
     private String surname;
 
-    @OneToMany(mappedBy = "student") // mark??
-    private List<MarkEntity> markEntities;
+    private List<MarkEntity> markEntityList;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(
-            name = "student_subject",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id")
-    )
-    private List<SubjectEntity> subjectEntities;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        StudentEntity studentEntity = (StudentEntity) o;
-        return Objects.equals(id, studentEntity.id) && Objects.equals(surname, studentEntity.surname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, surname);
-    }
-
-    @Override
-    public String toString() {
-        return "StudentEntity{" +
-                "id=" + id +
-                ", surname='" + surname + '\'' +
-                ", markEntities=" + markEntities +
-                ", subjectEntities=" + subjectEntities +
-                '}';
-    }
+    private List<SubjectEntity> subjectEntityList;
 
     public StudentEntity() {
+        this.id = UUID.randomUUID();
     }
 
-    public StudentEntity(Long id, String surname, List<MarkEntity> markEntities, List<SubjectEntity> subjectEntities) {
+    public StudentEntity(UUID id, String surname, List<MarkEntity> markEntityList, List<SubjectEntity> subjectEntityList) {
         this.id = id;
         this.surname = surname;
-        this.markEntities = markEntities;
-        this.subjectEntities = subjectEntities;
+        this.markEntityList = markEntityList;
+        this.subjectEntityList = subjectEntityList;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -80,19 +43,41 @@ public class StudentEntity {
         this.surname = surname;
     }
 
-    public List<MarkEntity> getMarks() {
-        return markEntities;
+    public List<MarkEntity> getMarkEntityList() {
+        return markEntityList;
     }
 
-    public void setMarks(List<MarkEntity> markEntities) {
-        this.markEntities = markEntities;
+    public void setMarkEntityList(List<MarkEntity> markEntityList) {
+        this.markEntityList = markEntityList;
     }
 
-    public List<SubjectEntity> getSubjects() {
-        return subjectEntities;
+    public List<SubjectEntity> getSubjectEntityList() {
+        return subjectEntityList;
     }
 
-    public void setSubjects(List<SubjectEntity> subjectEntities) {
-        this.subjectEntities = subjectEntities;
+    public void setSubjectEntityList(List<SubjectEntity> subjectEntityList) {
+        this.subjectEntityList = subjectEntityList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof StudentEntity that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getSurname(), that.getSurname()) && Objects.equals(getMarkEntityList(), that.getMarkEntityList()) && Objects.equals(getSubjectEntityList(), that.getSubjectEntityList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getSurname(), getMarkEntityList(), getSubjectEntityList());
+    }
+
+    @Override
+    public String toString() {
+        return "StudentEntity{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", markEntityList=" + markEntityList +
+                ", subjectEntityList=" + subjectEntityList +
+                '}';
     }
 }

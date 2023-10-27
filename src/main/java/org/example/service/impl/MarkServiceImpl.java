@@ -1,37 +1,32 @@
 package org.example.service.impl;
 
 import org.example.model.entity.MarkEntity;
-import org.example.repository.repository.MarkRepository;
+import org.example.model.entity.StudentEntity;
+import org.example.model.entity.SubjectEntity;
+import org.example.repository.interfaces.MarkRepository;
 import org.example.service.interfaces.MarkService;
+import org.example.servlet.dto.AddMarkDTO;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
-public class MarkServiceImpl implements MarkService {
+public class MarkServiceImpl implements MarkService<MarkEntity, UUID> {
+    private final MarkRepository<MarkEntity, UUID> markRepository;
 
-    MarkRepository markRepository;
-
-    public MarkServiceImpl(MarkRepository markRepository) {
+    public MarkServiceImpl(MarkRepository<MarkEntity, UUID> markRepository) {
         this.markRepository = markRepository;
     }
 
     @Override
-    public MarkEntity findById(Long id) {
-        return markRepository.findById(id).orElseThrow(NoSuchElementException::new);
-    }
+    public boolean addMark(AddMarkDTO addMarkDTO) throws SQLException {
 
-    @Override
-    public List<MarkEntity> findAll() {
-        return markRepository.findAll().toList();
-    }
-
-    @Override
-    public MarkEntity save(MarkEntity mark) {
-        return markRepository.save(mark);
-    }
-
-    @Override
-    public void delete(Long id) {
-        markRepository.deleteById(id);
+        StudentEntity studentEntity = new StudentEntity();
+        studentEntity.setSurname(addMarkDTO.getSurname());
+        SubjectEntity subjectEntity = new SubjectEntity();
+        subjectEntity.setName(addMarkDTO.getSubject());
+        MarkEntity markEntity = new MarkEntity(UUID.randomUUID(), addMarkDTO.getMark(), studentEntity, subjectEntity);
+        return markRepository.save(markEntity);
     }
 }

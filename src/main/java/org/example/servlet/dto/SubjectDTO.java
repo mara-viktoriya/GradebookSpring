@@ -5,28 +5,29 @@ import org.example.model.entity.StudentEntity;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class SubjectDTO {
-    private Long id;
+    private UUID id;
     private String name;
-    private List<StudentEntity> studentEntities;
-    private List<MarkEntity> markEntities;
+    private List<StudentDTO> studentDTOList;
+    private List<MarkDTO> markDTOList;
+    public SubjectDTO() {
+        this.id = UUID.randomUUID();
+    }
 
-    public SubjectDTO(Long id, String name, List<StudentEntity> studentEntities, List<MarkEntity> markEntities) {
+    public SubjectDTO(UUID id, String name, List<StudentDTO> studentDTOList, List<MarkDTO> markDTOList) {
         this.id = id;
         this.name = name;
-        this.studentEntities = studentEntities;
-        this.markEntities = markEntities;
+        this.studentDTOList = studentDTOList;
+        this.markDTOList = markDTOList;
     }
 
-    public SubjectDTO() {
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -38,20 +39,20 @@ public class SubjectDTO {
         this.name = name;
     }
 
-    public List<StudentEntity> getStudents() {
-        return studentEntities;
+    public List<StudentDTO> getStudentDTOList() {
+        return studentDTOList;
     }
 
-    public void setStudents(List<StudentEntity> studentEntities) {
-        this.studentEntities = studentEntities;
+    public void setStudentDTOList(List<StudentDTO> studentDTOList) {
+        this.studentDTOList = studentDTOList;
     }
 
-    public List<MarkEntity> getMarks() {
-        return markEntities;
+    public List<MarkDTO> getMarkDTOList() {
+        return markDTOList;
     }
 
-    public void setMarks(List<MarkEntity> markEntities) {
-        this.markEntities = markEntities;
+    public void setMarkDTOList(List<MarkDTO> markDTOList) {
+        this.markDTOList = markDTOList;
     }
 
     @Override
@@ -59,21 +60,20 @@ public class SubjectDTO {
         return "SubjectDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", studentEntities=" + studentEntities +
-                ", markEntities=" + markEntities +
+                ", studentDTOList=" + studentDTOList +
+                ", markDTOList=" + markDTOList +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SubjectDTO)) return false;
-        SubjectDTO that = (SubjectDTO) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getStudents(), that.getStudents()) && Objects.equals(getMarks(), that.getMarks());
+        if (!(o instanceof SubjectDTO that)) return false;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getStudentDTOList(), that.getStudentDTOList()) && Objects.equals(getMarkDTOList(), that.getMarkDTOList());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getStudents(), getMarks());
+        return Objects.hash(getId(), getName(), getStudentDTOList(), getMarkDTOList());
     }
 }

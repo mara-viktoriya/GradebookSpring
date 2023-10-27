@@ -1,16 +1,12 @@
 package org.example.service.interfaces;
 
 
-import org.example.model.entity.MarkEntity;
+import org.example.servlet.dto.AddMarkDTO;
 
-import java.util.List;
+import java.sql.SQLException;
 
-public interface MarkService {
-    MarkEntity findById(Long id);
+public interface MarkService<T, K>{
 
-    List<MarkEntity> findAll();
+    public boolean addMark(AddMarkDTO addMarkDTO) throws SQLException;
 
-    MarkEntity save(MarkEntity mark);
-
-    void delete(Long id);
 }

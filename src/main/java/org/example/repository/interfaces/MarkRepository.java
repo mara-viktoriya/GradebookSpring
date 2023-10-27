@@ -1,12 +1,15 @@
-package org.example.repository.repository;
+package org.example.repository.interfaces;
 
 
-import jakarta.data.repository.CrudRepository;
-import jakarta.data.repository.Repository;
 import org.example.model.entity.MarkEntity;
+import org.example.repository.Repository;
 
+import java.sql.SQLException;
+import java.util.Optional;
+import java.util.UUID;
 
-@Repository
-public interface MarkRepository extends CrudRepository<MarkEntity, Long> {
+public interface MarkRepository <T, K>  extends Repository <MarkEntity, UUID>  {
+
+    boolean save(T t) throws SQLException;
 
 }
