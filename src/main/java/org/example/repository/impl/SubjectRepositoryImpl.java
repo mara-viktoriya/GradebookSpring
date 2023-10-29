@@ -20,6 +20,7 @@ public class SubjectRepositoryImpl implements SubjectRepository<SubjectEntity, U
     private static final String GET_SUBJECT_BY_NAME = "SELECT id FROM subject WHERE name = ?;";
 
     private static final String DELETE_SUBJECT_BY_NAME = "DELETE FROM subject WHERE name = ?;";
+    private static final String DELETE_ALL_SQL = "DELETE FROM subject";
 
     public SubjectRepositoryImpl(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -48,14 +49,14 @@ public class SubjectRepositoryImpl implements SubjectRepository<SubjectEntity, U
     }
 
     @Override
-    public String getSubjectIdByName(SubjectEntity subjectEntity) throws SQLException {
+    public UUID getSubjectIdByName(SubjectEntity subjectEntity) throws SQLException {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatementSubjectIdCheck = connection.prepareStatement(subjectIdCheck)) {
 
             preparedStatementSubjectIdCheck.setString(1, subjectEntity.getName());
             ResultSet resultSet = preparedStatementSubjectIdCheck.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("id");
+                return UUID.fromString(resultSet.getString("id"));
             } else return null;
         }
     }
@@ -73,5 +74,12 @@ public class SubjectRepositoryImpl implements SubjectRepository<SubjectEntity, U
     @Override
     public ConnectionManager getConnectionManager() {
         return connectionManager;
+    }
+    @Override
+    public void clearAll() throws SQLException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement( DELETE_ALL_SQL )){
+            statement.executeUpdate();
+        }
     }
 }

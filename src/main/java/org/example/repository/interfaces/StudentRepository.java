@@ -13,7 +13,7 @@ public interface StudentRepository<T, K>  extends Repository<StudentEntity, UUID
 
      boolean addNewStudent(T t) throws SQLException;
 
-     String getStudentIDBySurname(T t) throws SQLException;
+     UUID getStudentIDBySurname(T t) throws SQLException;
 
      boolean isStudentExists (T t) throws SQLException;
 

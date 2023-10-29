@@ -29,4 +29,9 @@ public class MarkServiceImpl implements MarkService<MarkEntity, UUID> {
         MarkEntity markEntity = new MarkEntity(UUID.randomUUID(), addMarkDTO.getMark(), studentEntity, subjectEntity);
         return markRepository.save(markEntity);
     }
+
+    @Override
+    public MarkRepository<MarkEntity, UUID>  getRepository() {
+        return this.markRepository;
+    }
 }

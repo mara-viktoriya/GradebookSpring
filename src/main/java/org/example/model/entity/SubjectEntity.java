@@ -75,7 +75,7 @@ public class SubjectEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SubjectEntity that)) return false;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(studentEntitiesList, that.studentEntitiesList) && Objects.equals(markEntitiesList, that.markEntitiesList);
+        return Objects.equals(getName(), that.getName()) && Objects.equals(studentEntitiesList, that.studentEntitiesList) && Objects.equals(markEntitiesList, that.markEntitiesList);
     }
 
     @Override

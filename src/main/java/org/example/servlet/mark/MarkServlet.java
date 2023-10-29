@@ -23,11 +23,16 @@ public class MarkServlet extends HttpServlet {
 
     private final ConnectionManager connectionManager;
     private final MarkRepository<MarkEntity, UUID> repository;
-    private final MarkService<MarkEntity, UUID> service;
+    private MarkService<MarkEntity, UUID> service;
 
     public MarkServlet() {
         this.connectionManager = new HikariCPDataSource();
-        //this.connectionManager = new DataBaseConnect();
+        this.repository = new MarkRepositoryImpl(this.connectionManager);
+        this.service = new MarkServiceImpl(this.repository);
+    }
+
+    public MarkServlet(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
         this.repository = new MarkRepositoryImpl(this.connectionManager);
         this.service = new MarkServiceImpl(this.repository);
     }
@@ -53,17 +58,7 @@ public class MarkServlet extends HttpServlet {
             }
         }
     }
-
-    //        Optional.ofNullable(req.getParameter("mark"))
-//                .ifPresentOrElse(MarkServlet::doSmth, () -> sendError(resp));\
-//    private static void doSmth(String it) {
-//        System.out.println(it);
-//            }
-//    private static void sendError(HttpServletResponse resp) {
-//        try {
-//            resp.sendError(400);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    protected void setService(MarkService<MarkEntity, UUID> service) {
+        this.service = service;
+    }
 }

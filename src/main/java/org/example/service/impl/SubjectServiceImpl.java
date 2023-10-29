@@ -33,4 +33,9 @@ public class SubjectServiceImpl implements SubjectService<SubjectEntity, UUID> {
         }
     }
 
+    @Override
+    public SubjectRepository<SubjectEntity, UUID >  getRepository() {
+        return this.subjectRepository;
+    }
+
 }

@@ -10,6 +10,6 @@ public interface SubjectService<T, K> {
 
     boolean deleteSubject(SubjectDTO subjectDTO) throws SQLException;
 
-
+    Object getRepository();
 
 }

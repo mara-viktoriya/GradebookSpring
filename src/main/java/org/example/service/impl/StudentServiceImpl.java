@@ -66,4 +66,8 @@ public class StudentServiceImpl implements StudentService<StudentEntity, UUID> {
             return studentRepository.changeStudent(oldStudentEntity, newStudentEntity);
         }
     }
+
+    public StudentRepository<StudentEntity, UUID>  getRepository() {
+        return this.studentRepository;
+    }
 }

@@ -9,10 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.example.db.ConnectionManager;
 import org.example.db.HikariCPDataSource;
+import org.example.model.entity.MarkEntity;
 import org.example.model.entity.StudentEntity;
 import org.example.repository.impl.StudentRepositoryImpl;
 import org.example.repository.interfaces.StudentRepository;
 import org.example.service.impl.StudentServiceImpl;
+import org.example.service.interfaces.MarkService;
 import org.example.service.interfaces.StudentService;
 import org.example.servlet.dto.MarkDTO;
 import org.example.servlet.dto.StudentDTO;
@@ -29,13 +31,20 @@ public class StudentServlet extends HttpServlet {
 
     private final ConnectionManager connectionManager;
     private final StudentRepository<StudentEntity, UUID> repository;
-    private final StudentService<StudentEntity, UUID> service;
+    private StudentService<StudentEntity, UUID> service;
 
     public StudentServlet() {
         this.connectionManager = new HikariCPDataSource();
         this.repository = new StudentRepositoryImpl(this.connectionManager);
         this.service = new StudentServiceImpl(repository);
     }
+
+    public StudentServlet(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+        this.repository = new StudentRepositoryImpl(this.connectionManager);
+        this.service = new StudentServiceImpl(repository);
+    }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -53,9 +62,9 @@ public class StudentServlet extends HttpServlet {
                 List<MarkDTO> markDTOList = studentDtoIncoming.getMarkDtoList();
                 resp.setContentType("text/html;charset=UTF-8");
                 PrintWriter out = resp.getWriter();
-                out.println("Оценки "+surname+ " по предмету "+subject);
+                out.print("Оценки "+surname+ " по предмету "+subject +" : ");
                 for (MarkDTO mark : markDTOList) {
-                    out.println(mark.getValue());
+                    out.print(mark.getValue()+ " ");
                 }
                 resp.setStatus(200);
 
@@ -133,7 +142,7 @@ public class StudentServlet extends HttpServlet {
                 if (added) {
                     resp.setStatus(200);
                 } else {
-                    resp.sendError(400, "Проверьте корректность введенных данных");
+                    resp.sendError(400, "Ошибка работы базы данных");
                 }
             } catch (SQLException e) {
                 resp.sendError(400, "Ошибка работы базы данных");
@@ -141,6 +150,9 @@ public class StudentServlet extends HttpServlet {
                 resp.sendError(400, e.getMessage());
             }
         }
+    }
+    protected void setService(StudentService<StudentEntity, UUID> service) {
+        this.service = service;
     }
 
 

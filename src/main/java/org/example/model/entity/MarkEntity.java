@@ -20,7 +20,7 @@ public class MarkEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MarkEntity markEntity = (MarkEntity) o;
-        return value == markEntity.value && Objects.equals(id, markEntity.id);
+        return value == markEntity.value;
     }
 
     @Override

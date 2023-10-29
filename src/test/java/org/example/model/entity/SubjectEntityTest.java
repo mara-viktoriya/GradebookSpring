@@ -1,5 +1,6 @@
 package org.example.model.entity;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,19 +9,20 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SubjectEntityTest {
 
     private SubjectEntity subjectEntity;
     private UUID uuid = UUID.randomUUID();
     private String name = "Math";
-    private List<StudentEntity> studentEntitiesList =new ArrayList<>();
+    private List<StudentEntity> studentEntitiesList = new ArrayList<>();
     private List<MarkEntity> markEntitiesList = new ArrayList<>();
+
     @BeforeEach
     void setUp() {
         subjectEntity = new SubjectEntity(uuid, name, studentEntitiesList, markEntitiesList);
     }
+
     @Test
     void getId() {
         UUID id = subjectEntity.getId();

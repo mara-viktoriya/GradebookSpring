@@ -10,7 +10,7 @@ public interface SubjectRepository<T, K> extends Repository <SubjectEntity, UUID
 
 
 
-    String getSubjectIdByName(T t) throws SQLException;
+    UUID getSubjectIdByName(T t) throws SQLException;
 
     boolean isSubjectExists (T t) throws SQLException;
 

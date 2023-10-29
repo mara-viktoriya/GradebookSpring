@@ -22,7 +22,7 @@ public class StudentRepositoryImpl implements StudentRepository<StudentEntity, U
     private static final String DELETE_STUDENT_BY_SURNAME = "DELETE FROM student WHERE surname = ?;";
     private static final String CHANGE_STUDENT_BY_SURNAME = "UPDATE student SET surname = ? WHERE surname = ?;";
     private static final String GET_MARKS_BY_SUBJECT = "SELECT value FROM mark JOIN subject s ON mark.subject_id = s.id WHERE student_id = (SELECT id FROM student WHERE surname = ?) and subject_id = (SELECT id FROM subject WHERE name = ?)";
-
+    private static final String DELETE_ALL_SQL = "DELETE FROM student";
 
     public StudentRepositoryImpl(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -40,13 +40,13 @@ public class StudentRepositoryImpl implements StudentRepository<StudentEntity, U
     }
 
     @Override
-    public String getStudentIDBySurname(StudentEntity studentEntity) throws SQLException {
+    public UUID getStudentIDBySurname(StudentEntity studentEntity) throws SQLException {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_STUDENT_BY_SURNAME)) {
             preparedStatement.setString(1, studentEntity.getSurname());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getString("id");
+                return UUID.fromString(resultSet.getString("id"));
             } else return null;
 
         }
@@ -100,10 +100,15 @@ public class StudentRepositoryImpl implements StudentRepository<StudentEntity, U
             return true;
         }
     }
-
     @Override
-
     public ConnectionManager getConnectionManager() {
         return connectionManager;
+    }
+    @Override
+    public void clearAll() throws SQLException {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement statement = connection.prepareStatement( DELETE_ALL_SQL )){
+            statement.executeUpdate();
+        }
     }
 }

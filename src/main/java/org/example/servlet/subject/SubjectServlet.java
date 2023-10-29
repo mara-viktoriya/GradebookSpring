@@ -8,10 +8,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.example.db.ConnectionManager;
 import org.example.db.HikariCPDataSource;
+import org.example.model.entity.StudentEntity;
 import org.example.model.entity.SubjectEntity;
 import org.example.repository.impl.SubjectRepositoryImpl;
 import org.example.repository.interfaces.SubjectRepository;
 import org.example.service.impl.SubjectServiceImpl;
+import org.example.service.interfaces.StudentService;
 import org.example.service.interfaces.SubjectService;
 import org.example.servlet.dto.SubjectDTO;
 
@@ -25,10 +27,16 @@ public class SubjectServlet extends HttpServlet {
 
     private final ConnectionManager connectionManager;
     private final SubjectRepository<SubjectEntity, UUID> repository;
-    private final SubjectService<SubjectEntity, UUID> service;
+    private SubjectService<SubjectEntity, UUID> service;
 
     public SubjectServlet() {
         this.connectionManager = new HikariCPDataSource();
+        this.repository = new SubjectRepositoryImpl(this.connectionManager);
+        this.service = new SubjectServiceImpl(repository);
+    }
+
+    public SubjectServlet(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
         this.repository = new SubjectRepositoryImpl(this.connectionManager);
         this.service = new SubjectServiceImpl(repository);
     }
@@ -82,5 +90,8 @@ public class SubjectServlet extends HttpServlet {
             }
         }
 
+    }
+    protected void setService(SubjectService<SubjectEntity, UUID> service) {
+        this.service = service;
     }
 }

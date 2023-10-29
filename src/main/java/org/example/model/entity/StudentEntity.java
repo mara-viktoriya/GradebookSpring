@@ -63,7 +63,7 @@ public class StudentEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StudentEntity that)) return false;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getSurname(), that.getSurname()) && Objects.equals(getMarkEntityList(), that.getMarkEntityList()) && Objects.equals(getSubjectEntityList(), that.getSubjectEntityList());
+        return Objects.equals(getSurname(), that.getSurname()) && Objects.equals(getMarkEntityList(), that.getMarkEntityList()) && Objects.equals(getSubjectEntityList(), that.getSubjectEntityList());
     }
 
     @Override

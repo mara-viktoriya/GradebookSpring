@@ -17,4 +17,5 @@ public interface StudentService<T, K>{
 
     boolean changeStudent (StudentDTO oldStudentDTO, StudentDTO newStudentDTO) throws SQLException, RuntimeException;
 
+    Object getRepository();
 }

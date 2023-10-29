@@ -9,4 +9,5 @@ public interface MarkService<T, K>{
 
     public boolean addMark(AddMarkDTO addMarkDTO) throws SQLException;
 
+    Object getRepository();
 }

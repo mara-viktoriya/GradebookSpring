@@ -1,51 +1,56 @@
-//package org.example.servlet.mark;
+package org.example.servlet.mark;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.db.ConnectionManager;
+import org.example.model.entity.MarkEntity;
+import org.example.repository.interfaces.MarkRepository;
+import org.example.service.interfaces.MarkService;
+import org.example.servlet.dto.AddMarkDTO;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.SQLException;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+public class MarkServletTest {
+
+    @Mock
+    private ConnectionManager connectionManager;
+
+    @Mock
+    private MarkRepository<MarkEntity, UUID> markRepository;
+
+    @Mock
+    private MarkService<MarkEntity, UUID> markService;
+
+    @InjectMocks
+    private MarkServlet servlet;
+
+//    @Test
+//    void testDefaultConstructor() throws Exception {
+//        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+//        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+//        StringWriter stringWriter = new StringWriter();
+//        Mockito.when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
 //
-//import jakarta.servlet.RequestDispatcher;
-//import jakarta.servlet.ServletException;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//import org.example.db.ConnectionManager;
-//import org.example.model.entity.MarkEntity;
-//import org.example.repository.interfaces.MarkRepository;
-//import org.example.service.interfaces.MarkService;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
+//        servlet.doPost(request, response);
 //
-//import java.io.IOException;
-//import java.sql.SQLException;
-//import java.util.UUID;
+//        Assertions.assertFalse(stringWriter.toString().isEmpty(), "Response body should not be empty");
 //
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.Mockito.*;
-//
-//public class MarkServletTest {
-//
-//    @Mock
-//    private ConnectionManager connectionManager;
-//
-//    @Mock
-//    private MarkRepository<MarkEntity, UUID> markRepository;
-//
-//    @Mock
-//    private MarkService<MarkEntity, UUID> markService;
-//
-//    @Mock
-//    private HttpServletRequest request;
-//
-//    @Mock
-//    private HttpServletResponse response;
-//
-//    @Mock
-//    private RequestDispatcher requestDispatcher;
-//
-//    private MarkServlet markServlet;
-//
-//    @BeforeEach
-//    public void setup() {
-//        MockitoAnnotations.initMocks(this);
-//        markServlet = new MarkServlet(connectionManager, markRepository, markService);
+//        Mockito.verify(response).setStatus(HttpServletResponse.SC_OK);
 //    }
 //
 //    @Test
@@ -57,7 +62,7 @@
 //
 //        when(markService.addMark(any(AddMarkDTO.class))).thenReturn(true);
 //
-//        markServlet.doPost(request, response);
+//        servlet.doPost(request, response);
 //
 //        verify(markService, times(1)).addMark(any(AddMarkDTO.class));
 //        assertEquals(200, response.getStatus());
@@ -72,7 +77,7 @@
 //
 //        when(markService.addMark(any(AddMarkDTO.class))).thenReturn(false);
 //
-//        markServlet.doPost(request, response);
+//        servlet.doPost(request, response);
 //
 //        verify(markService, times(1)).addMark(any(AddMarkDTO.class));
 //        assertEquals(400, response.getStatus());
@@ -85,9 +90,9 @@
 //        when(request.getParameter("subject")).thenReturn("Math");
 //        when(response.getWriter()).thenReturn(new TestWriter());
 //
-//        when(markService.addMark(any(AddMarkDTO.class)).thenThrow(new SQLException()));
+//        //when(markService.addMark(any(AddMarkDTO.class)).thenThrow());
 //
-//        markServlet.doPost(request, response);
+//        servlet.doPost(request, response);
 //
 //        verify(markService, times(1)).addMark(any(AddMarkDTO.class));
 //        assertEquals(400, response.getStatus());
@@ -98,4 +103,4 @@
 //            super(new StringWriter());
 //        }
 //    }
-//}
+}
