@@ -64,7 +64,6 @@ public class SubjectEntity {
     @Override
     public String toString() {
         return "SubjectEntity{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", studentEntitiesList=" + studentEntitiesList +
                 ", markEntitiesList=" + markEntitiesList +
@@ -80,6 +79,6 @@ public class SubjectEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), studentEntitiesList, markEntitiesList);
+        return Objects.hash(getName(), studentEntitiesList, markEntitiesList);
     }
 }
