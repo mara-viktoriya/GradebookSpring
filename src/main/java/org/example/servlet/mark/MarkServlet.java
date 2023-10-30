@@ -51,7 +51,7 @@ public class MarkServlet extends HttpServlet {
                 if (added) {
                     resp.setStatus(200);
                 } else {
-                    resp.sendError(400, "Проверьте корректность введенных данных");
+                    resp.sendError(400, "Значение не добавлено.Проверьте корректность введенных данных");
                 }
             } catch (SQLException e) {
                 resp.sendError(400, "Ошибка работы базы данных");

@@ -8,99 +8,95 @@ import org.example.model.entity.MarkEntity;
 import org.example.repository.interfaces.MarkRepository;
 import org.example.service.interfaces.MarkService;
 import org.example.servlet.dto.AddMarkDTO;
-import org.junit.jupiter.api.Assertions;
+import org.example.servlet.dto.MarkDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class MarkServletTest {
 
-    @Mock
     private ConnectionManager connectionManager;
-
-    @Mock
-    private MarkRepository<MarkEntity, UUID> markRepository;
-
-    @Mock
-    private MarkService<MarkEntity, UUID> markService;
-
-    @InjectMocks
+    private Connection connection;
+    private MarkRepository<MarkEntity, UUID> repository;
+    private MarkService<MarkEntity, UUID> service;
     private MarkServlet servlet;
+    private MarkDTO markDTO;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
-//    @Test
-//    void testDefaultConstructor() throws Exception {
-//        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-//        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-//        StringWriter stringWriter = new StringWriter();
-//        Mockito.when(response.getWriter()).thenReturn(new PrintWriter(stringWriter));
-//
-//        servlet.doPost(request, response);
-//
-//        Assertions.assertFalse(stringWriter.toString().isEmpty(), "Response body should not be empty");
-//
-//        Mockito.verify(response).setStatus(HttpServletResponse.SC_OK);
-//    }
-//
-//    @Test
-//    public void testDoPostSuccess() throws IOException, ServletException, SQLException {
-//        when(request.getParameter("mark")).thenReturn("90");
-//        when(request.getParameter("surname")).thenReturn("Smith");
-//        when(request.getParameter("subject")).thenReturn("Math");
-//        when(response.getWriter()).thenReturn(new TestWriter());
-//
-//        when(markService.addMark(any(AddMarkDTO.class))).thenReturn(true);
-//
-//        servlet.doPost(request, response);
-//
-//        verify(markService, times(1)).addMark(any(AddMarkDTO.class));
-//        assertEquals(200, response.getStatus());
-//    }
-//
-//    @Test
-//    public void testDoPostBadRequest() throws IOException, ServletException, SQLException {
-//        when(request.getParameter("mark")).thenReturn("invalidMark");
-//        when(request.getParameter("surname")).thenReturn("Smith");
-//        when(request.getParameter("subject")).thenReturn("Math");
-//        when(response.getWriter()).thenReturn(new TestWriter());
-//
-//        when(markService.addMark(any(AddMarkDTO.class))).thenReturn(false);
-//
-//        servlet.doPost(request, response);
-//
-//        verify(markService, times(1)).addMark(any(AddMarkDTO.class));
-//        assertEquals(400, response.getStatus());
-//    }
-//
-//    @Test
-//    public void testDoPostError() throws IOException, ServletException, SQLException {
-//        when(request.getParameter("mark")).thenReturn("90");
-//        when(request.getParameter("surname")).thenReturn("Smith");
-//        when(request.getParameter("subject")).thenReturn("Math");
-//        when(response.getWriter()).thenReturn(new TestWriter());
-//
-//        //when(markService.addMark(any(AddMarkDTO.class)).thenThrow());
-//
-//        servlet.doPost(request, response);
-//
-//        verify(markService, times(1)).addMark(any(AddMarkDTO.class));
-//        assertEquals(400, response.getStatus());
-//    }
-//
-//    private static class TestWriter extends PrintWriter {
-//        public TestWriter() {
-//            super(new StringWriter());
-//        }
-//    }
+    @BeforeEach
+    void setUp() throws SQLException {
+        service = Mockito.mock(MarkService.class);
+        repository = Mockito.mock(MarkRepository.class);
+        connectionManager = Mockito.mock(ConnectionManager.class);
+        connection = Mockito.mock(Connection.class);
+        markDTO = Mockito.mock(MarkDTO.class);
+        servlet = new MarkServlet(connectionManager);
+        servlet.setService(service);
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+    }
+
+    @Test
+    public void testDoPostSuccess() throws IOException, ServletException, SQLException {
+        when(request.getParameter("mark")).thenReturn("5");
+        when(request.getParameter("surname")).thenReturn("Smith");
+        when(request.getParameter("subject")).thenReturn("Math");
+        when(service.addMark(any(AddMarkDTO.class))).thenReturn(true);
+        servlet.doPost(request, response);
+        verify(response).setStatus(200);
+    }
+
+    @Test
+    public void testDoPost_shouldReturnBadRequest_IfValueNull() throws IOException, ServletException, SQLException {
+        when(request.getParameter("mark")).thenReturn("");
+        when(request.getParameter("surname")).thenReturn("Smith");
+        when(request.getParameter("subject")).thenReturn("Math");
+        servlet.doPost(request, response);
+        verify(response).sendError(400, "Проверьте корректность введенных данных");
+    }
+    @Test
+    public void testDoPost_shouldReturnBadRequest_IfSurnameNull() throws IOException, ServletException, SQLException {
+        when(request.getParameter("mark")).thenReturn("5");
+        when(request.getParameter("surname")).thenReturn("");
+        when(request.getParameter("subject")).thenReturn("Math");
+        servlet.doPost(request, response);
+        verify(response).sendError(400, "Проверьте корректность введенных данных");
+    }
+
+    @Test
+    public void testDoPost_shouldReturnBadRequest_IfNameNull() throws IOException, ServletException, SQLException {
+        when(request.getParameter("mark")).thenReturn("5");
+        when(request.getParameter("surname")).thenReturn("Smith");
+        when(request.getParameter("subject")).thenReturn("");
+        servlet.doPost(request, response);
+        verify(response).sendError(400, "Проверьте корректность введенных данных");
+    }
+    @Test
+    public void testDoPost_shouldReturnBadRequest_IfAddedNotSuccess() throws IOException, ServletException, SQLException {
+        when(request.getParameter("mark")).thenReturn("5");
+        when(request.getParameter("surname")).thenReturn("Smith");
+        when(request.getParameter("subject")).thenReturn("Math");
+        when(service.addMark(any(AddMarkDTO.class))).thenReturn(false);
+        servlet.doPost(request, response);
+        verify(response).sendError(400, "Значение не добавлено.Проверьте корректность введенных данных");
+    }
+
+    @Test
+    public void testDoPost_shouldThrowException() throws IOException, ServletException, SQLException {
+        when(request.getParameter("mark")).thenReturn("5");
+        when(request.getParameter("surname")).thenReturn("Smith");
+        when(request.getParameter("subject")).thenReturn("Math");
+        when(service.addMark(any(AddMarkDTO.class))).thenThrow(new SQLException());
+        servlet.doPost(request, response);
+        verify(response).sendError(400, "Ошибка работы базы данных");
+    }
 }

@@ -89,7 +89,7 @@ public class SubjectServletTest {
     @Test
     public void testDoPost_shouldThrowException() throws IOException, SQLException, ServletException {
         when(request.getParameter("name")).thenReturn("Math");
-        when(service.deleteSubject(any(SubjectDTO.class))).thenThrow(new SQLException());
+        when(service.saveNewSubject(any(SubjectDTO.class))).thenThrow(new SQLException());
         servlet.doPost(request, response);
         verify(response, times(1)).sendError(400, "Ошибка работы базы данных");
     }
@@ -122,10 +122,8 @@ public class SubjectServletTest {
     public void testDoDelete_shouldThrowException() throws IOException, SQLException, ServletException {
         when(request.getParameter("name")).thenReturn("Math");
         when(service.deleteSubject(any(SubjectDTO.class))).thenThrow(new SQLException());
-
         servlet.doDelete(request, response);
-
-        verify(response, times(1)).sendError(400, "Ошибка работы базы данных");
+        verify(response).sendError(400, "Ошибка работы базы данных");
     }
 
 

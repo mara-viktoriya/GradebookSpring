@@ -75,13 +75,7 @@ public class StudentServletTest {
         Mockito.verify(response).setStatus(200);
     }
 
-    @Test
-    public void testDoPost_shouldThrowException() throws IOException, SQLException, ServletException {
-        when(request.getParameter("surname")).thenReturn("Mockito");
-        when(service.saveNewStudent(any(StudentDTO.class))).thenThrow(new SQLException());
-        servlet.doPost(request, response);
-        verify(response, times(1)).sendError(400, "Ошибка работы базы данных");
-    }
+
 
     @Test
     public void testDoPost_shouldReturnBadRequest_IfSurnameNull() throws ServletException, IOException, SQLException {
@@ -96,6 +90,14 @@ public class StudentServletTest {
         when(service.saveNewStudent(any(StudentDTO.class))).thenReturn(false);
         servlet.doPost(request, response);
         Mockito.verify(response).sendError(400, "Проверьте корректность введенных данных");
+    }
+
+    @Test
+    public void testDoPost_shouldThrowException() throws IOException, SQLException, ServletException {
+        when(request.getParameter("surname")).thenReturn("Mockito");
+        when(service.saveNewStudent(any(StudentDTO.class))).thenThrow(new SQLException());
+        servlet.doPost(request, response);
+        verify(response).sendError(400, "Ошибка работы базы данных");
     }
 
     @Test
@@ -131,7 +133,7 @@ public class StudentServletTest {
         when(request.getParameter("new-surname")).thenReturn("NewSmith");
         when(service.changeStudent(any(StudentDTO.class), any(StudentDTO.class))).thenThrow(new SQLException());
         servlet.doPut(request, response);
-        verify(response, times(1)).sendError(400, "Ошибка работы базы данных");
+        verify(response).sendError(400, "Ошибка работы базы данных");
     }
 
     @Test

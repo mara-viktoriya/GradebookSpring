@@ -8,8 +8,6 @@ import org.example.service.interfaces.MarkService;
 import org.example.servlet.dto.AddMarkDTO;
 
 import java.sql.SQLException;
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class MarkServiceImpl implements MarkService<MarkEntity, UUID> {

@@ -20,18 +20,17 @@ public class MarkDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MarkDTO markDTO)) return false;
-        return getValue() == markDTO.getValue() && Objects.equals(getId(), markDTO.getId()) && Objects.equals(getSubjectDto(), markDTO.getSubjectDto()) && Objects.equals(getStudentDTO(), markDTO.getStudentDTO());
+        return getValue() == markDTO.getValue() && Objects.equals(getSubjectDto(), markDTO.getSubjectDto()) && Objects.equals(getStudentDTO(), markDTO.getStudentDTO());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getValue(), getSubjectDto(), getStudentDTO());
+        return Objects.hash(getValue(), getSubjectDto(), getStudentDTO());
     }
 
     @Override
     public String toString() {
         return "MarkDTO{" +
-                "id=" + id +
                 ", value=" + value +
                 ", subjectDto=" + subjectDto +
                 ", studentDTO=" + studentDTO +

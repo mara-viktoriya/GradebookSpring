@@ -55,7 +55,6 @@ public class SubjectDTO {
     @Override
     public String toString() {
         return "SubjectDTO{" +
-                "id=" + id +
                 ", name='" + name + '\'' +
                 ", studentDTOList=" + studentDTOList +
                 ", markDTOList=" + markDTOList +
@@ -66,11 +65,11 @@ public class SubjectDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SubjectDTO that)) return false;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getName(), that.getName()) && Objects.equals(getStudentDTOList(), that.getStudentDTOList()) && Objects.equals(getMarkDTOList(), that.getMarkDTOList());
+        return Objects.equals(getName(), that.getName()) && Objects.equals(getStudentDTOList(), that.getStudentDTOList()) && Objects.equals(getMarkDTOList(), that.getMarkDTOList());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getStudentDTOList(), getMarkDTOList());
+        return Objects.hash(getName(), getStudentDTOList(), getMarkDTOList());
     }
 }

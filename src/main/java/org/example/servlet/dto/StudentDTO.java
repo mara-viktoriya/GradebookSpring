@@ -59,7 +59,6 @@ public class StudentDTO {
     @Override
     public String toString() {
         return "StudentDTO{" +
-                "id=" + id +
                 ", surname='" + surname + '\'' +
                 ", markDtoList=" + markDtoList +
                 ", subjectDtoList=" + subjectDtoList +
@@ -70,11 +69,11 @@ public class StudentDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StudentDTO that)) return false;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getSurname(), that.getSurname()) && Objects.equals(getMarkDtoList(), that.getMarkDtoList()) && Objects.equals(getSubjectDtoList(), that.getSubjectDtoList());
+        return Objects.equals(getSurname(), that.getSurname()) && Objects.equals(getMarkDtoList(), that.getMarkDtoList()) && Objects.equals(getSubjectDtoList(), that.getSubjectDtoList());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getSurname(), getMarkDtoList(), getSubjectDtoList());
+        return Objects.hash(getSurname(), getMarkDtoList(), getSubjectDtoList());
     }
 }
