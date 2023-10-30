@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 public interface MarkToSubjectMapper {
 
-    MarkToStudentMapper INSTANCE = Mappers.getMapper(MarkToStudentMapper.class);
+    MarkToSubjectMapper INSTANCE = Mappers.getMapper(MarkToSubjectMapper.class);
 
     @Mapping(source = "subjectEntity", target = "subjectDto")
     @Mapping(source = "studentEntity", target = "studentDTO")

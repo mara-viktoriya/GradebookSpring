@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {MarkToStudentMapper.class})
+@Mapper(uses = {MarkToStudentMapper.class, StudentMapper.class})
 public interface SubjectMapper {
     SubjectMapper INSTANCE = Mappers.getMapper(SubjectMapper.class);
     @Mapping(source = "markEntitiesList", target = "markDTOList")

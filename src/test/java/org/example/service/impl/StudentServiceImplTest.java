@@ -3,23 +3,21 @@ package org.example.service.impl;
 import org.example.db.ConnectionManager;
 import org.example.model.entity.StudentEntity;
 import org.example.model.entity.SubjectEntity;
-import org.example.repository.impl.SubjectRepositoryImpl;
 import org.example.repository.interfaces.StudentRepository;
 import org.example.repository.interfaces.SubjectRepository;
 import org.example.servlet.dto.StudentDTO;
 import org.example.servlet.dto.SubjectDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 public class StudentServiceImplTest {
 
@@ -85,24 +83,6 @@ public class StudentServiceImplTest {
 
         assertThrows(RuntimeException.class, () -> studentService.deleteStudent(studentDTO));
     }
-
-//    @Test
-//    public void testGetMarksBySubjectSuccess() throws SQLException {
-//        StudentDTO studentDTO = new StudentDTO();
-//        studentDTO.setSurname("John");
-//        SubjectDTO subjectDTO = new SubjectDTO();
-//        subjectDTO.setName("Math");
-//        StudentEntity studentEntity = Mockito.mock(StudentEntity.class);
-//
-//        when(studentRepository.isStudentExists(any(StudentEntity.class))).thenReturn(true);
-//        when(subjectRepository.isSubjectExists(any(SubjectEntity.class))).thenReturn(true);
-//        when(studentRepository.getConnectionManager()).thenReturn(connectionManager);
-//        when(connectionManager.getConnection()).thenReturn(connection);
-//        when(studentRepository.getMarksBySubject(any(StudentEntity.class), any(SubjectEntity.class)))
-//                .thenReturn(studentEntity);
-//        StudentDTO result = studentService.getMarksBySubject(studentDTO, subjectDTO);
-//        assertEquals(studentDTO.getMarkDtoList(), result.getMarkDtoList());
-//    }
 
     @Test
     public void testGetMarksBySubjectStudentNotExists() throws SQLException {
