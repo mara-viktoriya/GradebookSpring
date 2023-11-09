@@ -1,40 +1,61 @@
 package org.example.service.impl;
 
+import org.example.controller.mapper.MarkMapper;
+import org.example.controller.mapper.StudentMapper;
 import org.example.model.entity.SubjectEntity;
-import org.example.repository.interfaces.SubjectRepository;
+import org.example.repository.StudentRepository;
+import org.example.repository.SubjectRepository;
 import org.example.service.interfaces.SubjectService;
-import org.example.servlet.dto.SubjectDTO;
-import org.example.servlet.mapper.SubjectMapper;
+import org.example.controller.dto.SubjectDTO;
+import org.example.controller.mapper.SubjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.UUID;
+@Service
+public class SubjectServiceImpl implements SubjectService {
 
-public class SubjectServiceImpl implements SubjectService<SubjectEntity, UUID> {
+    private final SubjectRepository subjectRepository;
 
-    private final SubjectRepository<SubjectEntity, UUID > subjectRepository;
-
-    public SubjectServiceImpl(SubjectRepository<SubjectEntity, UUID> subjectRepository) {
+    private final MarkMapper markMapper;
+    private final StudentMapper studentMapper;
+    private final SubjectMapper subjectMapper;
+    @Autowired
+    public SubjectServiceImpl(SubjectRepository subjectRepository, MarkMapper markMapper, StudentMapper studentMapper, SubjectMapper subjectMapper ) {
         this.subjectRepository = subjectRepository;
+        this.markMapper = markMapper;
+        this.studentMapper = studentMapper;
+        this.subjectMapper = subjectMapper;
     }
+
 
     @Override
-    public boolean saveNewSubject(SubjectDTO subjectDTO) throws SQLException {
-        SubjectEntity subjectEntity = SubjectMapper.INSTANCE.toSubjectEntity(subjectDTO);
-        return subjectRepository.addNewSubject(subjectEntity);
+    public SubjectDTO saveNewSubject(SubjectDTO subjectDTO) throws SQLException {
+        SubjectEntity subjectEntity = subjectMapper.toSubjectEntity(subjectDTO);
+        if (subjectRepository.existsById(subjectEntity.getId())){
+            throw new RuntimeException("Предмет уже существует");
+        }
+        else {
+            SubjectEntity subjectSaved = subjectRepository.save(subjectEntity);
+            return subjectMapper.toSubjectDTO(subjectSaved);
+        }
     }
+
 
     @Override
     public boolean deleteSubject(SubjectDTO subjectDTO) throws SQLException {
-        SubjectEntity subjectEntity = SubjectMapper.INSTANCE.toSubjectEntity(subjectDTO);
-        if (!(subjectRepository.isSubjectExists(subjectEntity))) {
-            throw new RuntimeException("Студент не существует");
+        SubjectEntity subjectEntity = subjectMapper.toSubjectEntity(subjectDTO);
+        if (!(subjectRepository.existsSubjectEntitiesByName(subjectEntity.getName()))) {
+            throw new RuntimeException("Предмет не существует");
         } else {
-            return subjectRepository.deleteSubject(subjectEntity);
+            return subjectRepository.deleteSubjectEntitiesByName(subjectEntity.getName());
         }
     }
 
     @Override
-    public SubjectRepository<SubjectEntity, UUID >  getRepository() {
+    public SubjectRepository getRepository() {
         return this.subjectRepository;
     }
 

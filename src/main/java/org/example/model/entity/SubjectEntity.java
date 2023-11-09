@@ -1,32 +1,35 @@
 package org.example.model.entity;
 
 
-import java.util.List;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Objects;
 import java.util.UUID;
+import java.util.List;
 
+@Entity
+@Table(name = "subject")
 public class SubjectEntity {
 
-
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
-
+    @Column(name = "name")
     private String name;
-
-
-    private List<StudentEntity> studentEntitiesList;
-
-
-    private List<MarkEntity> markEntitiesList;
+    @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER)
+    private List<MarkEntity> markList;
 
     public SubjectEntity() {
-        this.id = UUID.randomUUID();
+
     }
 
-    public SubjectEntity(UUID id, String name, List<StudentEntity> studentEntitiesList, List<MarkEntity> markEntitiesList) {
+    public SubjectEntity(UUID id, String name, List<MarkEntity> markList) {
         this.id = id;
         this.name = name;
-        this.studentEntitiesList = studentEntitiesList;
-        this.markEntitiesList = markEntitiesList;
+        this.markList = markList;
     }
 
     public UUID getId() {
@@ -45,28 +48,18 @@ public class SubjectEntity {
         this.name = name;
     }
 
-    public List<StudentEntity> getStudentEntitiesList() {
-        return studentEntitiesList;
+    public List<MarkEntity> getMarkList() {
+        return markList;
     }
 
-    public void setStudentEntitiesList(List<StudentEntity> studentEntities) {
-        this.studentEntitiesList = studentEntities;
-    }
-
-    public List<MarkEntity> getMarkEntitiesList() {
-        return markEntitiesList;
-    }
-
-    public void setMarkEntitiesList(List<MarkEntity> markEntities) {
-        this.markEntitiesList = markEntities;
+    public void setMarkList(List<MarkEntity> markList) {
+        this.markList = markList;
     }
 
     @Override
     public String toString() {
         return "SubjectEntity{" +
                 ", name='" + name + '\'' +
-                ", studentEntitiesList=" + studentEntitiesList +
-                ", markEntitiesList=" + markEntitiesList +
                 '}';
     }
 
@@ -74,11 +67,11 @@ public class SubjectEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SubjectEntity that)) return false;
-        return Objects.equals(getName(), that.getName()) && Objects.equals(studentEntitiesList, that.studentEntitiesList) && Objects.equals(markEntitiesList, that.markEntitiesList);
+        return Objects.equals(getName(), that.getName()) && Objects.equals(markList, that.markList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), studentEntitiesList, markEntitiesList);
+        return Objects.hash(getName(), markList);
     }
 }

@@ -1,35 +1,55 @@
 package org.example.service.impl;
 
+import org.example.controller.dto.MarkDTO;
+import org.example.controller.dto.SaveMarkDTO;
+import org.example.controller.mapper.MarkMapper;
+import org.example.controller.mapper.StudentMapper;
+import org.example.controller.mapper.SubjectMapper;
 import org.example.model.entity.MarkEntity;
-import org.example.model.entity.StudentEntity;
-import org.example.model.entity.SubjectEntity;
-import org.example.repository.interfaces.MarkRepository;
+import org.example.repository.MarkRepository;
+import org.example.repository.StudentRepository;
+import org.example.repository.SubjectRepository;
 import org.example.service.interfaces.MarkService;
-import org.example.servlet.dto.AddMarkDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
-import java.util.UUID;
+@Service
+public class MarkServiceImpl implements MarkService {
+    private final MarkRepository markRepository;
+    private final SubjectRepository subjectRepository;
+    private final StudentRepository studentRepository;
+    private final MarkMapper markMapper;
+    private final StudentMapper studentMapper;
+    private final SubjectMapper subjectMapper;
 
-public class MarkServiceImpl implements MarkService<MarkEntity, UUID> {
-    private final MarkRepository<MarkEntity, UUID> markRepository;
-
-    public MarkServiceImpl(MarkRepository<MarkEntity, UUID> markRepository) {
+    @Autowired
+    public MarkServiceImpl(MarkRepository markRepository, SubjectRepository subjectRepository, StudentRepository studentRepository, MarkMapper markMapper, StudentMapper studentMapper,SubjectMapper subjectMapper ) {
         this.markRepository = markRepository;
+        this.subjectRepository = subjectRepository;
+        this.studentRepository = studentRepository;
+        this.markMapper = markMapper;
+        this.studentMapper = studentMapper;
+        this.subjectMapper = subjectMapper;
+
     }
 
     @Override
-    public boolean addMark(AddMarkDTO addMarkDTO) throws SQLException {
+    public MarkDTO save(MarkDTO markDTO) {
+        MarkEntity markEntity = markMapper.toMarkEntity(markDTO);
+        if (!(subjectRepository.existsById(markEntity.getSubject().getId()))){
+            throw new RuntimeException("предмет не существует");
+        }
+        if (!(studentRepository.existsById(markEntity.getStudent().getId()))) {
+            throw new RuntimeException("студент не существует");
+        }
 
-        StudentEntity studentEntity = new StudentEntity();
-        studentEntity.setSurname(addMarkDTO.getSurname());
-        SubjectEntity subjectEntity = new SubjectEntity();
-        subjectEntity.setName(addMarkDTO.getSubject());
-        MarkEntity markEntity = new MarkEntity(UUID.randomUUID(), addMarkDTO.getMark(), studentEntity, subjectEntity);
-        return markRepository.save(markEntity);
+        return markMapper.toMarkDTO(markRepository.save(markEntity));
     }
 
+
     @Override
-    public MarkRepository<MarkEntity, UUID>  getRepository() {
+    public MarkRepository getRepository() {
         return this.markRepository;
     }
 }

@@ -1,13 +1,14 @@
 package org.example.service.interfaces;
 
 
-import org.example.servlet.dto.AddMarkDTO;
+import org.example.controller.dto.MarkDTO;
+import org.example.controller.dto.SaveMarkDTO;
 
 import java.sql.SQLException;
 
-public interface MarkService<T, K>{
+public interface MarkService{
 
-    public boolean addMark(AddMarkDTO addMarkDTO) throws SQLException;
+    public MarkDTO save(MarkDTO markDTO) throws SQLException;
 
     Object getRepository();
 }

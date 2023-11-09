@@ -1,30 +1,33 @@
 package org.example.model.entity;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import java.util.Objects;
+import java.util.UUID;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name = "student")
 public class StudentEntity {
 
-
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "surname")
     private String surname;
 
-    private List<MarkEntity> markEntityList;
-
-    private List<SubjectEntity> subjectEntityList;
-
     public StudentEntity() {
-        this.id = UUID.randomUUID();
     }
 
-    public StudentEntity(UUID id, String surname, List<MarkEntity> markEntityList, List<SubjectEntity> subjectEntityList) {
+    public StudentEntity(UUID id, String surname, List<SubjectEntity> subjectList) {
         this.id = id;
         this.surname = surname;
-        this.markEntityList = markEntityList;
-        this.subjectEntityList = subjectEntityList;
     }
 
     public UUID getId() {
@@ -43,41 +46,22 @@ public class StudentEntity {
         this.surname = surname;
     }
 
-    public List<MarkEntity> getMarkEntityList() {
-        return markEntityList;
-    }
-
-    public void setMarkEntityList(List<MarkEntity> markEntityList) {
-        this.markEntityList = markEntityList;
-    }
-
-    public List<SubjectEntity> getSubjectEntityList() {
-        return subjectEntityList;
-    }
-
-    public void setSubjectEntityList(List<SubjectEntity> subjectEntityList) {
-        this.subjectEntityList = subjectEntityList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StudentEntity that)) return false;
-        return Objects.equals(getSurname(), that.getSurname()) && Objects.equals(getMarkEntityList(), that.getMarkEntityList()) && Objects.equals(getSubjectEntityList(), that.getSubjectEntityList());
+        return Objects.equals(getSurname(), that.getSurname());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getSurname(), getMarkEntityList(), getSubjectEntityList());
+        return Objects.hash(getSurname());
     }
 
     @Override
     public String toString() {
         return "StudentEntity{" +
-                "id=" + id +
-                ", surname='" + surname + '\'' +
-                ", markEntityList=" + markEntityList +
-                ", subjectEntityList=" + subjectEntityList +
+                "surname='" + surname + '\'' +
                 '}';
     }
 }

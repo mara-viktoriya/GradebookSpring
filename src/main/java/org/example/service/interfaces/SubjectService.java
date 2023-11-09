@@ -1,12 +1,12 @@
 package org.example.service.interfaces;
 
-import org.example.servlet.dto.SubjectDTO;
+import org.example.controller.dto.SubjectDTO;
 
 import java.sql.SQLException;
 
-public interface SubjectService<T, K> {
+public interface SubjectService {
 
-    boolean saveNewSubject (SubjectDTO subjectDTO) throws SQLException;
+    SubjectDTO saveNewSubject (SubjectDTO subjectDTO) throws SQLException;
 
     boolean deleteSubject(SubjectDTO subjectDTO) throws SQLException;
 

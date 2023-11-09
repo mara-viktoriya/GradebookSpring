@@ -1,19 +1,30 @@
 package org.example.model.entity;
 
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
+@Table(name="mark")
 public class MarkEntity {
 
-
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
-
+    @Column(name="value")
     private int value;
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private SubjectEntity subject;
 
-    private SubjectEntity subjectEntity;
-
-    private StudentEntity studentEntity;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private StudentEntity student;
 
     @Override
     public boolean equals(Object o) {
@@ -33,17 +44,7 @@ public class MarkEntity {
         return "MarkEntity{" +
                 "id=" + id +
                 ", value=" + value +
-                ", subjectEntity=" + subjectEntity +
-                ", studentEntity=" + studentEntity +
                 '}';
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public int getValue() {
@@ -55,30 +56,38 @@ public class MarkEntity {
     }
 
 
-    public SubjectEntity getSubjectEntity() {
-        return subjectEntity;
+    public SubjectEntity getSubject() {
+        return subject;
     }
 
-    public void setSubjectEntity(SubjectEntity subjectEntity) {
-        this.subjectEntity = subjectEntity;
+    public void setSubject(SubjectEntity subjectEntity) {
+        this.subject = subjectEntity;
     }
 
-    public StudentEntity getStudentEntity() {
-        return studentEntity;
+    public StudentEntity getStudent() {
+        return student;
     }
 
-    public void setStudentEntity(StudentEntity studentEntity) {
-        this.studentEntity = studentEntity;
+    public void setStudent(StudentEntity studentEntity) {
+        this.student = studentEntity;
     }
 
-    public MarkEntity(UUID id, int value, StudentEntity studentEntity, SubjectEntity subjectEntity) {
+    public MarkEntity(UUID id, int value, StudentEntity student, SubjectEntity subject) {
         this.id = id;
         this.value = value;
-        this.subjectEntity = subjectEntity;
-        this.studentEntity=studentEntity;
+        this.subject = subject;
+        this.student = student;
     }
 
     public MarkEntity() {
-        this.id = UUID.randomUUID();
+
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }
