@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public interface SubjectService {
 
-    SubjectDTO saveNewSubject (SubjectDTO subjectDTO) throws SQLException;
+    SubjectDTO saveNewSubject (SubjectDTO subjectDTO);
 
-    boolean deleteSubject(SubjectDTO subjectDTO) throws SQLException;
+    SubjectDTO deleteSubject(SubjectDTO subjectDTO);
 
     Object getRepository();
 

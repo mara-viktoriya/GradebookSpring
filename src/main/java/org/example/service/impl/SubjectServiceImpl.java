@@ -32,7 +32,7 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public SubjectDTO saveNewSubject(SubjectDTO subjectDTO) throws SQLException {
+    public SubjectDTO saveNewSubject(SubjectDTO subjectDTO) {
         SubjectEntity subjectEntity = subjectMapper.toSubjectEntity(subjectDTO);
         if (subjectRepository.existsById(subjectEntity.getId())){
             throw new RuntimeException("Предмет уже существует");
@@ -45,12 +45,13 @@ public class SubjectServiceImpl implements SubjectService {
 
 
     @Override
-    public boolean deleteSubject(SubjectDTO subjectDTO) throws SQLException {
+    public SubjectDTO deleteSubject(SubjectDTO subjectDTO) {
         SubjectEntity subjectEntity = subjectMapper.toSubjectEntity(subjectDTO);
-        if (!(subjectRepository.existsSubjectEntitiesByName(subjectEntity.getName()))) {
+        if (!(subjectRepository.existsById(subjectEntity.getId()))) {
             throw new RuntimeException("Предмет не существует");
         } else {
-            return subjectRepository.deleteSubjectEntitiesByName(subjectEntity.getName());
+            subjectRepository.delete(subjectEntity);
+            return subjectDTO;
         }
     }
 

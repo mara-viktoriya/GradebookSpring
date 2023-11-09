@@ -9,7 +9,6 @@ import java.util.UUID;
 public class StudentDTO {
 
 
-
     @NotNull
     private UUID id;
 

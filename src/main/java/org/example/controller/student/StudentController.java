@@ -13,9 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+
 @RestController
 @RequestMapping("/student")
-public class StudentController{
+public class StudentController {
     private final StudentService service;
 
     @Autowired
@@ -26,38 +27,40 @@ public class StudentController{
     @PostMapping
     public ResponseEntity<StudentDTO> doPost(@RequestBody StudentDTO studentDTO) {
         try {
-            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname())){
-                throw new RuntimeException();
+            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname())) {
+                throw new RuntimeException("Проверьте корректность введенных данных");
             }
             StudentDTO studentDTOOut = service.saveNewStudent(studentDTO);
             return new ResponseEntity<>(studentDTOOut, HttpStatus.OK);
         } catch (SQLException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    @DeleteMapping
-    public ResponseEntity<StudentDTO> doDelete(@RequestBody StudentDTO studentDTO) {
-        try {
-            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname())){
-                throw new RuntimeException();
-            }
-            return new ResponseEntity<>(service.deleteStudent(studentDTO), HttpStatus.OK);
-            } catch (SQLException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            } catch (RuntimeException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    //    @GetMapping("/marks)")
+    @DeleteMapping
+    public ResponseEntity<StudentDTO> doDelete(@RequestBody StudentDTO studentDTO) {
+        try {
+            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname())) {
+                throw new RuntimeException("Проверьте корректность введенных данных");
+            }
+            return new ResponseEntity<>(service.deleteStudent(studentDTO), HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+}
+
+//    @GetMapping("/marks)")
 //    public ResponseEntity<List<Long>> doGet(@RequestParam String surname, @RequestParam String subject) throws ServletException, IOException {
-//        if (StringUtils.isAnyBlank(surname, subject)) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        } else {
+//
 //            try {
+//            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname())){
+//            throw new RuntimeException("Проверьте корректность введенных данных");
+//            }
 //                StudentDTO studentDtoOutgoing = new StudentDTO();
 //                studentDtoOutgoing.setSurname(surname);
 //                SubjectDTO subjectDtoOutgoing = new SubjectDTO();
@@ -70,6 +73,6 @@ public class StudentController{
 //                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //            }
 //
-//        }
+//
 //    }
 
