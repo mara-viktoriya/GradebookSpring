@@ -10,20 +10,8 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {StudentMapper.class, SubjectMapper.class})
 public interface MarkMapper {
 
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "value", target = "value"),
-            @Mapping(source = "student", target = "student"),
-            @Mapping(source = "subject", target = "subject"),
-    })
     MarkDTO toMarkDTO(MarkEntity markEntity);
 
-    @Mappings({
-            @Mapping(source = "id", target = "id"),
-            @Mapping(source = "value", target = "value"),
-            @Mapping(source = "student", target = "student"),
-            @Mapping(source = "subject", target = "subject"),
-    })
     MarkEntity toMarkEntity(MarkDTO markDTO);
 
     @Named("toMarkDTOList")

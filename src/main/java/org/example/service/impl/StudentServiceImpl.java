@@ -1,8 +1,11 @@
 package org.example.service.impl;
 
 import org.example.controller.dto.MarkDTO;
+import org.example.controller.dto.StudentDTO;
+import org.example.controller.dto.SubjectDTO;
 import org.example.controller.mapper.ListMarkMapper;
-import org.example.controller.mapper.MarkMapper;
+import org.example.controller.mapper.StudentMapper;
+import org.example.controller.mapper.SubjectMapper;
 import org.example.model.entity.MarkEntity;
 import org.example.model.entity.StudentEntity;
 import org.example.model.entity.SubjectEntity;
@@ -10,17 +13,10 @@ import org.example.repository.MarkRepository;
 import org.example.repository.StudentRepository;
 import org.example.repository.SubjectRepository;
 import org.example.service.interfaces.StudentService;
-import org.example.controller.dto.StudentDTO;
-import org.example.controller.dto.SubjectDTO;
-import org.example.controller.mapper.StudentMapper;
-import org.example.controller.mapper.SubjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class StudentServiceImpl implements StudentService {
