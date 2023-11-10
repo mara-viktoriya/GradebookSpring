@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import org.example.controller.dto.MarkDTO;
+import org.example.controller.mapper.ListMarkMapper;
 import org.example.controller.mapper.MarkMapper;
 import org.example.model.entity.MarkEntity;
 import org.example.model.entity.StudentEntity;
@@ -28,12 +29,12 @@ public class StudentServiceImpl implements StudentService {
 
     private final MarkRepository markRepository;
 
-    private final MarkMapper markMapper;
+    private final ListMarkMapper markMapper;
     private final StudentMapper studentMapper;
     private final SubjectMapper subjectMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, SubjectRepository subjectRepository, MarkMapper markMapper, StudentMapper studentMapper, SubjectMapper subjectMapper, MarkRepository markRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, SubjectRepository subjectRepository, ListMarkMapper markMapper, StudentMapper studentMapper, SubjectMapper subjectMapper, MarkRepository markRepository) {
         this.studentRepository = studentRepository;
         this.subjectRepository = subjectRepository;
         this.markRepository = markRepository;

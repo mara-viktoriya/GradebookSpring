@@ -55,15 +55,15 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/marks)")
+    @GetMapping("/marks")
     public ResponseEntity<List<MarkDTO>> doGet
-            (@RequestParam UUID idStudent, @RequestParam UUID idSubject,@RequestParam String surnameStudent, @RequestParam String nameSubject) {
+            (@RequestParam String idStudent, @RequestParam String surnameStudent, @RequestParam String idSubject, @RequestParam String nameSubject) {
         try {
             if (StringUtils.isAnyBlank(idStudent.toString(), idSubject.toString(),nameSubject,surnameStudent)) {
                 throw new RuntimeException("Проверьте корректность введенных данных");
             }
-            StudentDTO studentDTO = new StudentDTO(idStudent, surnameStudent);
-            SubjectDTO subjectDTO = new SubjectDTO(idSubject,nameSubject,new ArrayList<>());
+            StudentDTO studentDTO = new StudentDTO(UUID.fromString(idStudent), surnameStudent);
+            SubjectDTO subjectDTO = new SubjectDTO(UUID.fromString(idSubject),nameSubject,new ArrayList<>());
             List<MarkDTO> marksList = service.getMarksBySubject(studentDTO, subjectDTO);
             return new ResponseEntity<>(marksList, HttpStatus.OK);
         } catch (SQLException e) {
