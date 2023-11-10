@@ -1,18 +1,18 @@
 package org.example.controller.student;
 
 
-import jakarta.validation.Valid;
-import jakarta.validation.Validator;
 import org.apache.commons.lang3.StringUtils;
+import org.example.controller.dto.MarkDTO;
 import org.example.controller.dto.StudentDTO;
+import org.example.controller.dto.SubjectDTO;
 import org.example.service.interfaces.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -52,27 +52,22 @@ public class StudentController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/marks)")
+    public ResponseEntity<List<MarkDTO>> doGet(@RequestBody StudentDTO studentDTO) {
+        try {
+            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname(), subjectDTO.getId().toString(), subjectDTO.getName())) {
+                throw new RuntimeException("Проверьте корректность введенных данных");
+            }
+            List<MarkDTO> marksList = service.getMarksBySubject(studentDTO, subjectDTO);
+            return new ResponseEntity<>(marksList, HttpStatus.OK);
+        } catch (SQLException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
 
-//    @GetMapping("/marks)")
-//    public ResponseEntity<List<Long>> doGet(@RequestParam String surname, @RequestParam String subject) throws ServletException, IOException {
-//
-//            try {
-//            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname())){
-//            throw new RuntimeException("Проверьте корректность введенных данных");
-//            }
-//                StudentDTO studentDtoOutgoing = new StudentDTO();
-//                studentDtoOutgoing.setSurname(surname);
-//                SubjectDTO subjectDtoOutgoing = new SubjectDTO();
-//                subjectDtoOutgoing.setName(subject);
-//                List<Long> marksList = service.getMarksBySubject(studentDtoOutgoing, subjectDtoOutgoing);
-//                return new ResponseEntity<>(marksList, HttpStatus.OK);
-//            } catch (SQLException e) {
-//                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//            } catch (RuntimeException e) {
-//                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//            }
-//
-//
-//    }
+
 

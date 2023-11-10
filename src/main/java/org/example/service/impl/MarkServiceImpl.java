@@ -1,7 +1,6 @@
 package org.example.service.impl;
 
 import org.example.controller.dto.MarkDTO;
-import org.example.controller.dto.SaveMarkDTO;
 import org.example.controller.mapper.MarkMapper;
 import org.example.controller.mapper.StudentMapper;
 import org.example.controller.mapper.SubjectMapper;
@@ -12,7 +11,6 @@ import org.example.repository.SubjectRepository;
 import org.example.service.interfaces.MarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MarkServiceImpl implements MarkService {
@@ -43,8 +41,7 @@ public class MarkServiceImpl implements MarkService {
         if (!(studentRepository.existsById(markEntity.getStudent().getId()))) {
             throw new RuntimeException("студент не существует");
         }
-
-        return markMapper.toMarkDTO(markRepository.save(markEntity));
+        return markDTO;
     }
 
 

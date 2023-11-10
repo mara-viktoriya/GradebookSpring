@@ -1,5 +1,6 @@
 package org.example.service.interfaces;
 
+import org.example.controller.dto.MarkDTO;
 import org.example.controller.dto.StudentDTO;
 import org.example.controller.dto.SubjectDTO;
 
@@ -12,7 +13,7 @@ public interface StudentService{
 
     StudentDTO deleteStudent (StudentDTO studentDTO) throws SQLException, RuntimeException;
 
-//    List<Long> getMarksBySubject (StudentDTO studentDTO, SubjectDTO subjectDTO) throws SQLException, RuntimeException;
+    List<MarkDTO> getMarksBySubject (StudentDTO studentDTO, SubjectDTO subjectDTO) throws SQLException, RuntimeException;
 
     Object getRepository();
 }

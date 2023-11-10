@@ -1,8 +1,11 @@
 package org.example.service.impl;
 
+import org.example.controller.dto.MarkDTO;
 import org.example.controller.mapper.MarkMapper;
+import org.example.model.entity.MarkEntity;
 import org.example.model.entity.StudentEntity;
 import org.example.model.entity.SubjectEntity;
+import org.example.repository.MarkRepository;
 import org.example.repository.StudentRepository;
 import org.example.repository.SubjectRepository;
 import org.example.service.interfaces.StudentService;
@@ -23,14 +26,17 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final SubjectRepository subjectRepository;
 
+    private final MarkRepository markRepository;
+
     private final MarkMapper markMapper;
     private final StudentMapper studentMapper;
     private final SubjectMapper subjectMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, SubjectRepository subjectRepository, MarkMapper markMapper, StudentMapper studentMapper, SubjectMapper subjectMapper) {
+    public StudentServiceImpl(StudentRepository studentRepository, SubjectRepository subjectRepository, MarkMapper markMapper, StudentMapper studentMapper, SubjectMapper subjectMapper, MarkRepository markRepository) {
         this.studentRepository = studentRepository;
         this.subjectRepository = subjectRepository;
+        this.markRepository = markRepository;
         this.markMapper = markMapper;
         this.studentMapper = studentMapper;
         this.subjectMapper = subjectMapper;
@@ -58,18 +64,19 @@ public class StudentServiceImpl implements StudentService {
         }
     }
 
-//    @Override
-//    public List<Long> getMarksBySubject(StudentDTO studentDTO, SubjectDTO subjectDTO) throws SQLException, RuntimeException {
-//        StudentEntity studentEntity = studentMapper.toStudentEntity(studentDTO);
-//        SubjectEntity subjectEntity = subjectMapper.toSubjectEntity(subjectDTO);
-//        if (!(studentRepository.existsStudentEntityBySurname(studentEntity.getSurname()))) {
-//            throw new RuntimeException("Студент не существует");
-//        } else if (!(subjectRepository.existsSubjectEntitiesByName(subjectEntity.getName()))) {
-//            throw new RuntimeException("Предмет не существует");
-//        } else {
-//            return studentRepository.getMarksBySubject(studentEntity.getSurname(), subjectEntity.getName());
-//        }
-//    }
+    @Override
+    public List<MarkDTO> getMarksBySubject(StudentDTO studentDTO, SubjectDTO subjectDTO) {
+        StudentEntity studentEntity = studentMapper.toStudentEntity(studentDTO);
+        SubjectEntity subjectEntity = subjectMapper.toSubjectEntity(subjectDTO);
+        if (!(studentRepository.existsById(studentEntity.getId()))) {
+            throw new RuntimeException("Студент не существует");
+        } else if (!(subjectRepository.existsById(subjectEntity.getId()))) {
+            throw new RuntimeException("Предмет не существует");
+        } else {
+            List <MarkEntity> markEntityList= markRepository.getMarkEntitiesByStudent_IdAndSubjectId(studentEntity.getId(), subjectDTO.getId());
+            return markMapper.toMarkDTOList(markEntityList);
+        }
+    }
 
     public StudentRepository getRepository() {
         return this.studentRepository;

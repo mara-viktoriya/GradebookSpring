@@ -27,14 +27,14 @@ public class MarkController {
     @PostMapping
     public ResponseEntity<MarkDTO> doPost(@RequestBody MarkDTO markDTO) {
         try {
-            if (StringUtils.isAnyBlank(markDTO.getId().toString(), Integer.toString(markDTO.getValue()))) {
+            if (StringUtils.isAnyBlank(markDTO.getId().toString(), Integer.toString(markDTO.getValue()),markDTO.getStudent().getSurname(),markDTO.getSubject().getName(),markDTO.getStudent().getId().toString(),markDTO.getSubject().getId().toString())) {
                 throw new RuntimeException("Проверьте корректность введенных данных");
             }
             return new ResponseEntity<>(service.save(markDTO), HttpStatus.OK);
         } catch (SQLException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
