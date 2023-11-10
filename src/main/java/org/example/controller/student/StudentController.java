@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/student")
@@ -54,11 +56,14 @@ public class StudentController {
     }
 
     @GetMapping("/marks)")
-    public ResponseEntity<List<MarkDTO>> doGet(@RequestBody StudentDTO studentDTO) {
+    public ResponseEntity<List<MarkDTO>> doGet
+            (@RequestParam UUID idStudent, @RequestParam UUID idSubject,@RequestParam String surnameStudent, @RequestParam String nameSubject) {
         try {
-            if (StringUtils.isAnyBlank(studentDTO.getId().toString(), studentDTO.getSurname(), subjectDTO.getId().toString(), subjectDTO.getName())) {
+            if (StringUtils.isAnyBlank(idStudent.toString(), idSubject.toString(),nameSubject,surnameStudent)) {
                 throw new RuntimeException("Проверьте корректность введенных данных");
             }
+            StudentDTO studentDTO = new StudentDTO(idStudent, surnameStudent);
+            SubjectDTO subjectDTO = new SubjectDTO(idSubject,nameSubject,new ArrayList<>());
             List<MarkDTO> marksList = service.getMarksBySubject(studentDTO, subjectDTO);
             return new ResponseEntity<>(marksList, HttpStatus.OK);
         } catch (SQLException e) {
