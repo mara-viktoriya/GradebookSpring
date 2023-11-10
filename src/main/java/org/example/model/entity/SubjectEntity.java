@@ -2,19 +2,16 @@ package org.example.model.entity;
 
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.List;
 
 @Entity
 @Table(name = "subject")
 public class SubjectEntity {
 
     @Id
-//    @GeneratedValue(generator = "UUID")
-//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
     @Column(name = "name")

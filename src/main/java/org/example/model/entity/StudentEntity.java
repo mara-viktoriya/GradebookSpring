@@ -1,10 +1,10 @@
 package org.example.model.entity;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-import java.util.Objects;
-import java.util.UUID;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -14,8 +14,6 @@ import java.util.UUID;
 public class StudentEntity {
 
     @Id
-//    @GeneratedValue(generator = "UUID")
-//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 

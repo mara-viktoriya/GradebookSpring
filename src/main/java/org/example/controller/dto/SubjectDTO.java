@@ -8,11 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class SubjectDTO {
-    @JsonProperty(value = "id", required = true)
-    @NotNull
+
     private UUID id;
-    @JsonProperty(value = "name", required = true)
-    @NotBlank
+
     private String name;
 
     private List<MarkDTO> markList;
