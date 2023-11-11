@@ -18,43 +18,32 @@ public class ListMarkMapperTest {
 
     @Test
     void testToMarkDTO() {
-        // Arrange
         MarkEntity markEntity = TestData.createMarkEntity();
 
-        // Act
         MarkDTO markDTO = mapper.toMarkDTO(markEntity);
 
-        // Assert
         assertNotNull(markDTO);
         assertEquals(markEntity.getId(), markDTO.getId());
         assertEquals(markEntity.getValue(), markDTO.getValue());
-        // Assert other properties if needed
     }
 
     @Test
     void testToMarkEntity() {
-        // Arrange
         MarkDTO markDTO = TestData.createMarkDTO();
 
-        // Act
         MarkEntity markEntity = mapper.toMarkEntity(markDTO);
 
-        // Assert
         assertNotNull(markEntity);
         assertEquals(markDTO.getId(), markEntity.getId());
         assertEquals(markDTO.getValue(), markEntity.getValue());
-        // Assert other properties if needed
     }
 
     @Test
     void testToMarkDTOList() {
-        // Arrange
         List<MarkEntity> markEntities = TestData.createMarkEntityList();
 
-        // Act
         List<MarkDTO> markDTOs = mapper.toMarkDTOList(markEntities);
 
-        // Assert
         assertNotNull(markDTOs);
         assertEquals(markEntities.size(), markDTOs.size());
 
@@ -64,19 +53,15 @@ public class ListMarkMapperTest {
 
             assertEquals(markEntity.getId(), markDTO.getId());
             assertEquals(markEntity.getValue(), markDTO.getValue());
-            // Assert other properties if needed
         }
     }
 
     @Test
     void testToMarkEntityList() {
-        // Arrange
         List<MarkDTO> markDTOs = TestData.createMarkDTOList();
 
-        // Act
         List<MarkEntity> markEntities = mapper.toMarkEntityList(markDTOs);
 
-        // Assert
         assertNotNull(markEntities);
         assertEquals(markDTOs.size(), markEntities.size());
 
@@ -86,7 +71,6 @@ public class ListMarkMapperTest {
 
             assertEquals(markDTO.getId(), markEntity.getId());
             assertEquals(markDTO.getValue(), markEntity.getValue());
-            // Assert other properties if needed
         }
     }
 
@@ -96,7 +80,6 @@ public class ListMarkMapperTest {
             MarkEntity markEntity = new MarkEntity();
             markEntity.setId(UUID.randomUUID());
             markEntity.setValue(85);
-            // Set other properties if needed
             return markEntity;
         }
 
@@ -104,21 +87,18 @@ public class ListMarkMapperTest {
             MarkDTO markDTO = new MarkDTO();
             markDTO.setId(UUID.randomUUID());
             markDTO.setValue(85);
-            // Set other properties if needed
             return markDTO;
         }
 
         static List<MarkEntity> createMarkEntityList() {
             MarkEntity markEntity1 = createMarkEntity();
             MarkEntity markEntity2 = createMarkEntity();
-            // Add more entities if needed
             return Arrays.asList(markEntity1, markEntity2);
         }
 
         static List<MarkDTO> createMarkDTOList() {
             MarkDTO markDTO1 = createMarkDTO();
             MarkDTO markDTO2 = createMarkDTO();
-            // Add more DTOs if needed
             return Arrays.asList(markDTO1, markDTO2);
         }
     }

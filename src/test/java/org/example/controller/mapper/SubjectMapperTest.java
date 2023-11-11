@@ -42,7 +42,6 @@ class SubjectMapperTest {
     void testToSubjectEntity() {
         SubjectDTO subjectDTO = TestData.createSubjectDTO();
 
-        // Mocking behavior of MarkMapper
         when(markMapper.toMarkEntityList(subjectDTO.getMarkList())).thenReturn(Arrays.asList(TestData.createMarkEntity()));
 
         SubjectEntity subjectEntity = subjectMapper.toSubjectEntity(subjectDTO);
@@ -56,7 +55,6 @@ class SubjectMapperTest {
     void testToSubjectDTOList() {
         List<SubjectEntity> subjectEntities = TestData.createSubjectEntityList();
 
-        // Mocking behavior of MarkMapper
         for (SubjectEntity subjectEntity : subjectEntities) {
             when(markMapper.toMarkDTOList(subjectEntity.getMarkList())).thenReturn(Arrays.asList(TestData.createMarkDTO()));
         }
@@ -79,7 +77,6 @@ class SubjectMapperTest {
     void testToSubjectEntityList() {
         List<SubjectDTO> subjectDTOs = TestData.createSubjectDTOList();
 
-        // Mocking behavior of MarkMapper
         for (SubjectDTO subjectDTO : subjectDTOs) {
             when(markMapper.toMarkEntityList(subjectDTO.getMarkList())).thenReturn(Arrays.asList(TestData.createMarkEntity()));
         }
@@ -131,14 +128,14 @@ class SubjectMapperTest {
         static MarkEntity createMarkEntity() {
             MarkEntity markEntity = new MarkEntity();
             markEntity.setId(UUID.randomUUID());
-            markEntity.setValue(90);
+            markEntity.setValue(5);
             return markEntity;
         }
 
         static MarkDTO createMarkDTO() {
             MarkDTO markDTO = new MarkDTO();
             markDTO.setId(UUID.randomUUID());
-            markDTO.setValue(90);
+            markDTO.setValue(5);
             return markDTO;
         }
     }

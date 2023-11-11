@@ -17,43 +17,32 @@ public class StudentMapperTest {
 
     @Test
     void testToStudentDTO() {
-        // Arrange
         StudentEntity studentEntity = TestData.createStudentEntity();
 
-        // Act
         StudentDTO studentDTO = mapper.toStudentDTO(studentEntity);
 
-        // Assert
         assertNotNull(studentDTO);
         assertEquals(studentEntity.getId(), studentDTO.getId());
         assertEquals(studentEntity.getSurname(), studentDTO.getSurname());
-        // Assert other properties if needed
     }
 
     @Test
     void testToStudentEntity() {
-        // Arrange
         StudentDTO studentDTO = TestData.createStudentDTO();
 
-        // Act
         StudentEntity studentEntity = mapper.toStudentEntity(studentDTO);
 
-        // Assert
         assertNotNull(studentEntity);
         assertEquals(studentDTO.getId(), studentEntity.getId());
         assertEquals(studentDTO.getSurname(), studentEntity.getSurname());
-        // Assert other properties if needed
     }
 
     @Test
     void testToStudentDTOList() {
-        // Arrange
         List<StudentEntity> studentEntities = TestData.createStudentEntityList();
 
-        // Act
         List<StudentDTO> studentDTOs = mapper.toStudentDTOList(studentEntities);
 
-        // Assert
         assertNotNull(studentDTOs);
         assertEquals(studentEntities.size(), studentDTOs.size());
 
@@ -63,19 +52,15 @@ public class StudentMapperTest {
 
             assertEquals(studentEntity.getId(), studentDTO.getId());
             assertEquals(studentEntity.getSurname(), studentDTO.getSurname());
-            // Assert other properties if needed
         }
     }
 
     @Test
     void testToStudentEntityList() {
-        // Arrange
         List<StudentDTO> studentDTOs = TestData.createStudentDTOList();
 
-        // Act
         List<StudentEntity> studentEntities = mapper.toStudentEntityList(studentDTOs);
 
-        // Assert
         assertNotNull(studentEntities);
         assertEquals(studentDTOs.size(), studentEntities.size());
 
@@ -85,7 +70,6 @@ public class StudentMapperTest {
 
             assertEquals(studentDTO.getId(), studentEntity.getId());
             assertEquals(studentDTO.getSurname(), studentEntity.getSurname());
-            // Assert other properties if needed
         }
     }
 
@@ -95,7 +79,6 @@ public class StudentMapperTest {
             StudentEntity studentEntity = new StudentEntity();
             studentEntity.setId(UUID.randomUUID());
             studentEntity.setSurname("Doe");
-            // Set other properties if needed
             return studentEntity;
         }
 
@@ -103,21 +86,18 @@ public class StudentMapperTest {
             StudentDTO studentDTO = new StudentDTO();
             studentDTO.setId(UUID.randomUUID());
             studentDTO.setSurname("Doe");
-            // Set other properties if needed
             return studentDTO;
         }
 
         static List<StudentEntity> createStudentEntityList() {
             StudentEntity studentEntity1 = createStudentEntity();
             StudentEntity studentEntity2 = createStudentEntity();
-            // Add more entities if needed
             return Arrays.asList(studentEntity1, studentEntity2);
         }
 
         static List<StudentDTO> createStudentDTOList() {
             StudentDTO studentDTO1 = createStudentDTO();
             StudentDTO studentDTO2 = createStudentDTO();
-            // Add more DTOs if needed
             return Arrays.asList(studentDTO1, studentDTO2);
         }
     }

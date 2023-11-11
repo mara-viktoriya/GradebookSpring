@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,7 +22,7 @@ public class StudentEntity {
     public StudentEntity() {
     }
 
-    public StudentEntity(UUID id, String surname, List<SubjectEntity> subjectList) {
+    public StudentEntity(UUID id, String surname) {
         this.id = id;
         this.surname = surname;
     }

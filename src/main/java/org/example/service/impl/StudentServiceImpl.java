@@ -25,16 +25,16 @@ public class StudentServiceImpl implements StudentService {
 
     private final MarkRepository markRepository;
 
-    private final ListMarkMapper markMapper;
+    private final ListMarkMapper listMarkMapper;
     private final StudentMapper studentMapper;
     private final SubjectMapper subjectMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentRepository studentRepository, SubjectRepository subjectRepository, ListMarkMapper markMapper, StudentMapper studentMapper, SubjectMapper subjectMapper, MarkRepository markRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, SubjectRepository subjectRepository, ListMarkMapper listMarkMapper, StudentMapper studentMapper, SubjectMapper subjectMapper, MarkRepository markRepository) {
         this.studentRepository = studentRepository;
         this.subjectRepository = subjectRepository;
         this.markRepository = markRepository;
-        this.markMapper = markMapper;
+        this.listMarkMapper = listMarkMapper;
         this.studentMapper = studentMapper;
         this.subjectMapper = subjectMapper;
     }
@@ -71,7 +71,7 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException("Предмет не существует");
         } else {
             List <MarkEntity> markEntityList= markRepository.getMarkEntitiesByStudent_IdAndSubjectId(studentEntity.getId(), subjectDTO.getId());
-            return markMapper.toMarkDTOList(markEntityList);
+            return listMarkMapper.toMarkDTOList(markEntityList);
         }
     }
 
