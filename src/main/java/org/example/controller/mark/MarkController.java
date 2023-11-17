@@ -1,6 +1,5 @@
 package org.example.controller.mark;
 
-import jakarta.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.example.controller.dto.MarkDTO;
 import org.example.service.interfaces.MarkService;
@@ -31,9 +30,7 @@ public class MarkController {
                 throw new RuntimeException("Проверьте корректность введенных данных");
             }
             return new ResponseEntity<>(service.save(markDTO), HttpStatus.OK);
-        } catch (SQLException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        } catch (SQLException | RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

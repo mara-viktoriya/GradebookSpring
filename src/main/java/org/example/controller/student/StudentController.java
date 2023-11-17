@@ -48,9 +48,7 @@ public class StudentController {
                 throw new RuntimeException("Проверьте корректность введенных данных");
             }
             return new ResponseEntity<>(service.deleteStudent(studentDTO), HttpStatus.OK);
-        } catch (SQLException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        } catch (SQLException | RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -59,16 +57,14 @@ public class StudentController {
     public ResponseEntity<List<MarkDTO>> doGet
             (@RequestParam String idStudent, @RequestParam String surnameStudent, @RequestParam String idSubject, @RequestParam String nameSubject) {
         try {
-            if (StringUtils.isAnyBlank(idStudent.toString(), idSubject.toString(),nameSubject,surnameStudent)) {
+            if (StringUtils.isAnyBlank(idStudent, idSubject,nameSubject,surnameStudent)) {
                 throw new RuntimeException("Проверьте корректность введенных данных");
             }
             StudentDTO studentDTO = new StudentDTO(UUID.fromString(idStudent), surnameStudent);
             SubjectDTO subjectDTO = new SubjectDTO(UUID.fromString(idSubject),nameSubject,new ArrayList<>());
             List<MarkDTO> marksList = service.getMarksBySubject(studentDTO, subjectDTO);
             return new ResponseEntity<>(marksList, HttpStatus.OK);
-        } catch (SQLException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        } catch (SQLException | RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
