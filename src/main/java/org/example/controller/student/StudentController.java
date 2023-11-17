@@ -34,9 +34,7 @@ public class StudentController {
             }
             StudentDTO studentDTOOut = service.saveNewStudent(studentDTO);
             return new ResponseEntity<>(studentDTOOut, HttpStatus.OK);
-        } catch (SQLException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (RuntimeException e) {
+        } catch (SQLException | RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
